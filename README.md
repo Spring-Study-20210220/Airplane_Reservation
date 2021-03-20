@@ -15,3 +15,8 @@
 - Spring boot
 - Spring MVC
 - Spring Data JPA
+
+## ER Diagram
+![Airplane_Reservation](./img/AirplaneReservation.png)
+
+## Class Diagram
