@@ -15,3 +15,40 @@
 - Spring boot
 - Spring MVC
 - Spring Data JPA
+
+## Entity별 Column
+항공사 - 이름
+
+비행기 - 이름 
+        이륙시간 착륙시간  (Temporal)
+        이륙지 착륙지 Place (Enum)
+        PlaneType enum
+        좌석
+
+예약 - 결제수단
+
+사용자 - 등급 enum
+        id,pw
+
+## 비행기 안에 있는것?
+비행기
+대한항공
+747 - 이름
+3/10 12시 - 이륙시간
+3/10 17시 - 도착시간
+서울 - 이륙지
+싱가포르 - 도착지
+보잉747 - 비행기 타입
+좌석등급 - 퍼스트클라스
+
+서브타입(Seat)
+Booked UnBooked
+그안에 좌석등급
+
+가격은 등급마다 enum
+
+## 만드는 순서
+관리자 -> 사용자 -> 항공사 -> 비행기 -> 예약
+    (join)           		
+
+
