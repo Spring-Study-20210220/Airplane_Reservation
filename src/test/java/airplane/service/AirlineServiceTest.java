@@ -4,7 +4,6 @@ import airplane.domain.Airline;
 import airplane.repository.AirlineRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -19,7 +18,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AirlineServiceTest {
 
     @Mock
@@ -28,10 +26,10 @@ public class AirlineServiceTest {
     @InjectMocks
     private AirlineService airlineService;
 
-    private Airline airline;
+    private static Airline airline;
 
     @BeforeAll
-    void setUp(){
+    static void setUp(){
         airline = Airline.builder()
                 .name("ㅇㅇ항공사")
                 .build();

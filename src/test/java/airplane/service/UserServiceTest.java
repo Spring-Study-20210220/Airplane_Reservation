@@ -6,7 +6,6 @@ import airplane.dto.UserJoinDTO;
 import airplane.repository.UserRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -19,7 +18,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserServiceTest {
 
     @Mock
@@ -31,14 +29,14 @@ public class UserServiceTest {
     @Mock
     private AirlineService airlineService;
 
-    private Airline airline;
-    private User user;
-    private User saveUser;
-    private String email = "testEmail";
-    private String password = "testPassword";
+    private static Airline airline;
+    private static User user;
+    private static User saveUser;
+    private static String email = "testEmail";
+    private static String password = "testPassword";
 
     @BeforeAll
-    void setUp() {
+    static void setUp() {
         airline = Airline.builder()
                 .name("항공사1")
                 .build();
