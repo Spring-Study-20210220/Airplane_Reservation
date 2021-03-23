@@ -17,6 +17,6 @@
 - Spring Data JPA
 
 ## ER Diagram
-![Airplane_Reservation](./img/AirplaneReservation.png)
+![Airplane_Reservation](./img/AirplaneERDiagram.png)
 
 ## Class Diagram
