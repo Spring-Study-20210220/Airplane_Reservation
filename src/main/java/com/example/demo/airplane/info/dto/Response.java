@@ -15,5 +15,13 @@ public class Response {
         }
     }
 
+    @Getter
+    @NoArgsConstructor
+    public static class Update {
+        private Long id;
 
+        public Update(Long id) {
+            this.id = id;
+        }
+    }
 }

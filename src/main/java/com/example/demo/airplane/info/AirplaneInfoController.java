@@ -1,12 +1,11 @@
 package com.example.demo.airplane.info;
 
-import com.example.demo.airplane.info.dto.ControllerRequest;
+import com.example.demo.airplane.info.dto.Request;
 import com.example.demo.airplane.info.dto.Response;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/airplaneinfo")
@@ -19,14 +18,25 @@ public class AirplaneInfoController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody ControllerRequest.Save saveDto) {
+    public ResponseEntity<?> save(@RequestBody @Valid Request.Save saveDto) {
 
-        return ResponseEntity.ok(airplaneInfoService.save(saveDto.toService()));
+        Long result = airplaneInfoService.save(saveDto.toEntity());
+
+        return ResponseEntity.ok(new Response.Save(result));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@RequestBody @Valid Request.Update updateDto) {
+
+        Long result = airplaneInfoService.update(updateDto);
+
+        return ResponseEntity.ok(new Response.Update(result));
     }
 }
+
 /*
 post - save
-update - update
+patch - update
 get - info
 get - infolist
  */
