@@ -35,16 +35,13 @@ public class AuthDto {
     public static class Response{
         private Long id;
         private String login_id;
-        private String password;
         private String name;
 
         @Builder
-        Response(Long id, String login_id, String password, String name){
+        Response(Long id, String login_id, String name){
             this.id=id;
             this.login_id = login_id;
-            this.password = password;
             this.name = name;
         }
-
     }
 }
