@@ -37,7 +37,7 @@ public class AuthControllerTest {
                 .build();
 
         AuthDto.Response authResDto= webTestClient.post()
-                .uri("/api/signup")
+                .uri("/api/Auth/SignUp/Admin")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(authReqDto), AuthDto.Request.class)
@@ -49,10 +49,27 @@ public class AuthControllerTest {
                 .getResponseBody();
         assertThat(authResDto.getLogin_id(),is(TEST_AUTH_LOGIN_ID));
         assertThat(authResDto.getName(),is(TEST_AUTH_NAME));
-        assertThat(authResDto.getPassword(),is(TEST_AUTH_PASSWORD));
     }
     @Test
     void 회원회원가입_정상(){
+        AuthDto.Request authReqDto = AuthDto.Request.builder()
+                .login_id(TEST_AUTH_LOGIN_ID)
+                .name(TEST_AUTH_NAME)
+                .password(TEST_AUTH_PASSWORD)
+                .build();
 
+        AuthDto.Response authResDto= webTestClient.post()
+                .uri("/api/Auth/SignUp/Member")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(Mono.just(authReqDto), AuthDto.Request.class)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody(AuthDto.Response.class)
+                .returnResult()
+                .getResponseBody();
+        assertThat(authResDto.getLogin_id(),is(TEST_AUTH_LOGIN_ID));
+        assertThat(authResDto.getName(),is(TEST_AUTH_NAME));
     }
 }
