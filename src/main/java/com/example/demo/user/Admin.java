@@ -1,6 +1,7 @@
 package com.example.demo.user;
 
 import com.example.demo.user.dto.AuthDto;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,7 @@ import javax.persistence.Entity;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Admin extends User{
 
     @Builder

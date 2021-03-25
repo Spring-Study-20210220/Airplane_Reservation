@@ -1,6 +1,7 @@
 package com.example.demo.user;
 
 import com.example.demo.user.dto.AuthDto;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +11,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Entity
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends User{
     @Enumerated(EnumType.STRING)
     private Level level;
