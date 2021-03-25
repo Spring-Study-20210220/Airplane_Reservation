@@ -18,8 +18,9 @@
 
 ## Entity별 Column
 항공사 - 이름
-
-비행기 - 이름 
+        국적
+        
+비행기 - 이름
         이륙시간 착륙시간  (Temporal)
         이륙지 착륙지 Place (Enum)
         PlaneType enum
