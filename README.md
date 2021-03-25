@@ -52,3 +52,8 @@ Booked UnBooked
     (join)           		
 
 
+# 트러블 슈팅
+![img.png](img.png)
+빌더 메소드가 컴파일타임에 오류 발생
+-> lombok 설정이 build.gradle에 잘못되어 있었다.
+![img_1.png](img_1.png)

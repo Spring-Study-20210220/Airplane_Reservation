@@ -1,5 +1,6 @@
 package com.example.demo.user;
 
+import com.example.demo.user.dto.AuthDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,12 @@ public class Member extends User{
         this.password = password;
         this.level = level;
     }
+
+//    AuthDto.Response toResponseDto(){
+//        return AuthDto.Response.builder()
+//                .id(this.id)
+//                .name(this.name)
+//                .login_id(this.login_id)
+//                .build();
+//    }
 }

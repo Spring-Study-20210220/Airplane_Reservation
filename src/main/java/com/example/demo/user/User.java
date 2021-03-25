@@ -26,11 +26,4 @@ public abstract class User {
     @Column(nullable = false)
     protected String name;
 
-    @Builder
-    User(String login_id, String password, String name) {
-        this.login_id = login_id;
-        this.name = name;
-        this.password = password;
-    }
-
 }
