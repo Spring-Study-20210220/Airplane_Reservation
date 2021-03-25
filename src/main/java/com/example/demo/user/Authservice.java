@@ -18,5 +18,17 @@ public class Authservice {
         Member member = memberRepository.save(reqDto.toEntity_Member());
         return member.toResponseDto();
     }
+    public void adminWithdraw(Long adminId) {
+        Admin admin = adminRepository.findById(adminId).orElseThrow(
+                () -> new RuntimeException("해당하는 관리자가 존재하지 않습니다.")
+        );
+        admin.withdraw();
+    }
+    public void memberWithdraw(Long memberId){
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new RuntimeException("해당하는 멤버가 존재하지 않습니다.")
+        );
+        member.withdraw();
+    }
 
 }

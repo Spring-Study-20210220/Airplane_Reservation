@@ -15,6 +15,8 @@ import reactor.core.publisher.Mono;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.IsNot.not;
+
 
 @AutoConfigureWebTestClient
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -99,6 +101,49 @@ public class AuthControllerTest {
                 .returnResult()
                 .getResponseBody();
         assertThat(authResDto.getLogin_id(),is(TEST_AUTH_LOGIN_ID));
+        assertThat(authResDto.getName(),is(TEST_AUTH_NAME));
+    }
+    @Test
+    void 멤버회원탈퇴(){
+        webTestClient.delete()
+                .uri("/api/Auth/Withdrawal/Member"+testMemberId)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .returnResult();
+    }
+
+    @Test
+    void 관리자탈퇴(){
+        webTestClient.delete()
+                .uri("/api/Auth/Withdrawal/Admin"+testAdminId)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .returnResult();
+    }
+
+    @Disabled
+    void 관리자회원가입_비정상() {
+        AuthDto.Request authReqDto = AuthDto.Request.builder()
+                .login_id(TEST_AUTH_LOGIN_ID)
+                .name(TEST_AUTH_NAME)
+                .password(TEST_AUTH_PASSWORD)
+                .build();
+
+        AuthDto.Response authResDto= webTestClient.post()
+                .uri("/api/Auth/SignUp/Admin")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(Mono.just(authReqDto), AuthDto.Request.class)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody(AuthDto.Response.class)
+                .returnResult()
+                .getResponseBody();
+
+        assertThat(authResDto.getLogin_id(),not(TEST_AUTH_LOGIN_ID));
         assertThat(authResDto.getName(),is(TEST_AUTH_NAME));
     }
 }

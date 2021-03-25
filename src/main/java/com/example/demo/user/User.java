@@ -1,6 +1,7 @@
 package com.example.demo.user;
 
 
+import com.example.demo.user.dto.AuthDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,4 +28,25 @@ public abstract class User {
     @Column(nullable = false)
     protected String name;
 
+    @Column(nullable = true)
+    protected boolean enable;
+
+//    @Builder
+//    User(String login_id, String password, String name) {
+//        this.login_id = login_id;
+//        this.name = name;
+//        this.password = password;
+//    }
+//
+    public AuthDto.Response toResponseDto(){
+        return AuthDto.Response.builder()
+                .id(this.id)
+                .login_id(this.login_id)
+                .name(this.name)
+                .build();
+    }
+
+    public void withdraw(){
+        this.enable=false;
+    }
 }

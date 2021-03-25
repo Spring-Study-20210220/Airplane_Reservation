@@ -4,10 +4,7 @@ import com.example.demo.user.dto.AuthDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/Auth")
@@ -29,4 +26,20 @@ public class AuthController {
                 .status(HttpStatus.CREATED)
                 .body(resDto);
     }
+    @DeleteMapping("/Withdrawal/Admin/{adminId}")
+    ResponseEntity<AuthDto.Response> adminWithdraw(@PathVariable("adminId") Long adminId) {
+        authservice.adminWithdraw(adminId);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
+    @DeleteMapping("/Withdrawal/Member/{memberId}")
+    ResponseEntity<AuthDto.Response> memberWithdraw(@PathVariable("memberId") Long memberId) {
+        authservice.memberWithdraw(memberId);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
+
+
 }

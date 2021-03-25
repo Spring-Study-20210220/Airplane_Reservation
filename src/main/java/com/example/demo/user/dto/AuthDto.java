@@ -1,5 +1,7 @@
 package com.example.demo.user.dto;
 
+import com.example.demo.user.Admin;
+import com.example.demo.user.Member;
 import com.example.demo.user.User;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,6 +12,7 @@ public class AuthDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Request{
+
         private String login_id;
         private String password;
         private String name;
@@ -21,11 +24,19 @@ public class AuthDto {
             this.name = name;
         }
 
-        public User toEntity(AuthDto.Request reqDto){
-            return User.builder()
-                    .login_id("id")
-                    .password("pw")
-                    .name("nm")
+        public Admin toEntity_Admin(){
+            return Admin.builder()
+                    .login_id(login_id)
+                    .password(password)
+                    .name(name)
+                    .build();
+        }
+
+        public Member toEntity_Member(){
+            return Member.builder()
+                    .login_id(login_id)
+                    .password(password)
+                    .name(name)
                     .build();
         }
     }
