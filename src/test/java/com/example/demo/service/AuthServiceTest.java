@@ -26,6 +26,10 @@ public class AuthServiceTest {
     private AdminRepository adminRepository;
     @Mock
     private MemberRepository memberRepository;
+    @Mock
+    private AdminRepository adminRepository;
+    @InjectMocks
+    private Authservice authservice;
 
     @Test
     void 관리자회원가입_정상(){
