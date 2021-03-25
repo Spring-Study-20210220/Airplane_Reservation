@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.user.dto.AuthDto;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +17,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
 @AutoConfigureWebTestClient
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AuthControllerTest {
     private static final String TEST_AUTH_LOGIN_ID = "testerId";
@@ -22,11 +26,36 @@ public class AuthControllerTest {
 
     @Autowired
     private WebTestClient webTestClient;
-//
-//    @BeforeAll
-//    void setUp() {
-//
-//    }
+
+    private Long testMemberId;
+    private Long testAdminId;
+
+    @BeforeAll
+    void 관리자와회원생성() {
+        AuthDto.Request authReqDto = AuthDto.Request.builder()
+                .login_id(TEST_AUTH_LOGIN_ID)
+                .name(TEST_AUTH_NAME)
+                .password(TEST_AUTH_PASSWORD)
+                .build();
+
+        AuthDto.Response memberResDto= webTestClient.post()
+                .uri("/api/Auth/SignUp/Member")
+                .body(Mono.just(authReqDto), AuthDto.Request.class)
+                .exchange()
+                .expectBody(AuthDto.Response.class)
+                .returnResult()
+                .getResponseBody();
+
+        AuthDto.Response adminResDto= webTestClient.post()
+                .uri("/api/Auth/SignUp/Admin")
+                .body(Mono.just(authReqDto), AuthDto.Request.class)
+                .exchange()
+                .expectBody(AuthDto.Response.class)
+                .returnResult()
+                .getResponseBody();
+        testAdminId=adminResDto.getId();
+        testMemberId=memberResDto.getId();
+    }
 
     @Test
     void 관리자회원가입_정상(){

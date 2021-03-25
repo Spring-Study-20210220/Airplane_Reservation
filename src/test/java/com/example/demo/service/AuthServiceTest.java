@@ -10,6 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;
 
@@ -64,5 +66,35 @@ public class AuthServiceTest {
 
         assertThat(resDto.getName()).isEqualTo(reqDto.getName());
         assertThat(resDto.getLogin_id()).isEqualTo(reqDto.getLogin_id());
+    }
+    @Test
+    void 멤버_탈퇴_정상(){
+        Member member = Member.builder()
+                .login_id(TEST_AUTH_LOGIN_ID)
+                .name(TEST_AUTH_NAME)
+                .password(TEST_AUTH_PASSWORD)
+                .level(Level.IRON)
+                .build();
+
+        given(memberRepository.findById(any())).willReturn(Optional.of(member));
+
+        authservice.memberWithdraw(1L);
+
+        assertThat(member.isEnable()).isEqualTo(false);
+    }
+
+    @Test
+    void 어드민_탈퇴_정상() {
+        Admin admin = Admin.builder()
+                .login_id(TEST_AUTH_LOGIN_ID)
+                .name(TEST_AUTH_NAME)
+                .password(TEST_AUTH_PASSWORD)
+                .build();
+
+        given(adminRepository.findById(any())).willReturn(Optional.of(admin));
+
+        authservice.adminWithdraw(1L);
+
+        assertThat(admin.isEnable()).isEqualTo(false);
     }
 }
