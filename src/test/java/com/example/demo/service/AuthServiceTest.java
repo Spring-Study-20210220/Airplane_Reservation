@@ -20,10 +20,7 @@ public class AuthServiceTest {
     private static final String TEST_AUTH_LOGIN_ID = "testerId";
     private static final String TEST_AUTH_NAME = "testerName";
     private static final String TEST_AUTH_PASSWORD = "testerPW";
-    @InjectMocks
-    private Authservice authservice;
-    @Mock
-    private AdminRepository adminRepository;
+
     @Mock
     private MemberRepository memberRepository;
     @Mock

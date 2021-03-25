@@ -36,4 +36,9 @@ public class Airline {
                 .country(country)
                 .build();
     }
+
+    public void update(String name, String country) {
+        this.name = name;
+        this.country = country;
+    }
 }
