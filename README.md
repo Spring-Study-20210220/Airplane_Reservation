@@ -53,8 +53,26 @@ Booked UnBooked
     (join)           		
 
 
+## ERD
+
+![img_6.png](img/img_6.png)
+
+
 # 트러블 슈팅
-![img.png](img.png)
+![img.png](img/img.png)
+
 빌더 메소드가 컴파일타임에 오류 발생
 -> lombok 설정이 build.gradle에 잘못되어 있었다.
-![img_1.png](img_1.png)
+
+![img_1.png](img/img_1.png)
+
+![img_2.png](img/img_2.png)
+![img_3.png](img/img_3.png)
+
+서비스 유닛테스트 도중 초기화부분에서 NullPointerException이 발생
+
+![img_4.png](img/img_4.png)
+![img_5.png](img/img_5.png)
+
+-> Mockito는 BeforeAll에서 초기화를 지원하지 않음 명시적 초기화가 필요
+
