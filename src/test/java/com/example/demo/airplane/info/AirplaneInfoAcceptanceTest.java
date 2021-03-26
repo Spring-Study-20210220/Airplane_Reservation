@@ -50,12 +50,17 @@ public class AirplaneInfoAcceptanceTest {
 
         Response.Save response = responseEntity.getBody();
 
-        Assertions.assertThat(response.getId()).isEqualTo(1L);
+        Assertions.assertThat(response.getId()).isEqualTo(5L);
     }
 
     @Test
-    @DisplayName("비행기 정보 업데이트")
-    void updateAirplaneInfo() {
+    @DisplayName("비행기 정보 목록 가져오기")
+    void getAirplaneInfoList() {
+        ResponseEntity<Response.AirplaneInfoList> responseEntity = restTemplate
+                .getForEntity("/airplaneinfo/list", Response.AirplaneInfoList.class);
+
+        Response.AirplaneInfoList response = responseEntity.getBody();
+
 
     }
 
@@ -65,16 +70,4 @@ public class AirplaneInfoAcceptanceTest {
 
     }
 
-    @Test
-    @DisplayName("비행기 정보 목록 가져오기")
-    void getAirplaneInfoList() {
-
-    }
-
 }
-/*
-post - save
-update - update
-get - info
-get - infolist
- */

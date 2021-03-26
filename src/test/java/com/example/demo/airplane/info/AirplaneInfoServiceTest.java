@@ -45,4 +45,11 @@ public class AirplaneInfoServiceTest {
         Assertions.assertThat(result).isEqualTo(airplaneInfo.getId());
         verify(airplaneInfoRepository, times(1)).save(any());
     }
+
+    @Test
+    @DisplayName("비행기 정보 가져오는 테스트")
+    void getAirplaneInfoTest() {
+
+        given(airplaneInfoRepository.findById()).willReturn();
+    }
 }

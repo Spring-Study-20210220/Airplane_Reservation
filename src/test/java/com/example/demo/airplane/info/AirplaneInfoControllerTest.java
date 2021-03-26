@@ -18,8 +18,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -60,39 +60,24 @@ public class AirplaneInfoControllerTest {
         verify(airplaneInfoService, times(1)).save(any());
     }
 
-
-    @Test
-    @DisplayName("비행기 정보 업데이트")
-    void updateAirplaneInfo() throws Exception {
-
-        Request.Update update = new Request.Update();
-        String request = objectMapper.writeValueAsString(update);
-
-        given(airplaneInfoService.update(any())).willReturn(1L);
-
-        mockMvc.perform(put("/airplaneinfo/{id}", 1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(request))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L));
-
-        verify(airplaneInfoService, times(1)).update(any());
-    }
-
-/*
     @Test
     @DisplayName("비행기 정보 가져오기")
-    void getAirplaneInfo() {
+    void getAirplaneInfo() throws Exception {
+        AirplaneInfo mockAirplaneInfo = new AirplaneInfo(
+                1L,
+                "Seoul",
+                "Busan",
+                LocalDate.now(),
+                LocalTime.now()
+        );
 
+        given(airplaneInfoService.getAirplaneInfo(any())).willReturn(Response.AirplaneInfo.of(mockAirplaneInfo));
+
+        mockMvc.perform(get("/airplaneinfo?id=1")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.departure").value("Seoul"))
+                .andExpect(jsonPath("$.arrival").value("Busan"));
     }
-
-    @Test
-    @DisplayName("비행기 정보 목록 가져오기")
-    void getAirplaneInfoList() {
-
-    }
-
- */
 
 }
