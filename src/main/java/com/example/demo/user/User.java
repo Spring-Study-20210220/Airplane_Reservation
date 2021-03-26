@@ -28,8 +28,8 @@ public abstract class User {
     @Column(nullable = false)
     protected String name;
 
-    @Column(nullable = true)
-    protected boolean enable;
+    @Column(nullable = false)
+    protected boolean enable=true;
 
 //    @Builder
 //    User(String login_id, String password, String name) {

@@ -40,7 +40,7 @@ public class AuthControllerTest {
                 .password(TEST_AUTH_PASSWORD)
                 .build();
 
-        AuthDto.Response memberResDto= webTestClient.post()
+        AuthDto.Response memberResDto = webTestClient.post()
                 .uri("/api/Auth/SignUp/Member")
                 .body(Mono.just(authReqDto), AuthDto.Request.class)
                 .exchange()
@@ -48,26 +48,26 @@ public class AuthControllerTest {
                 .returnResult()
                 .getResponseBody();
 
-        AuthDto.Response adminResDto= webTestClient.post()
+        AuthDto.Response adminResDto = webTestClient.post()
                 .uri("/api/Auth/SignUp/Admin")
                 .body(Mono.just(authReqDto), AuthDto.Request.class)
                 .exchange()
                 .expectBody(AuthDto.Response.class)
                 .returnResult()
                 .getResponseBody();
-        testAdminId=adminResDto.getId();
-        testMemberId=memberResDto.getId();
+        testAdminId = adminResDto.getId();
+        testMemberId = memberResDto.getId();
     }
 
     @Test
-    void 관리자회원가입_정상(){
+    void 관리자회원가입_정상() {
         AuthDto.Request authReqDto = AuthDto.Request.builder()
                 .login_id(TEST_AUTH_LOGIN_ID)
                 .name(TEST_AUTH_NAME)
                 .password(TEST_AUTH_PASSWORD)
                 .build();
 
-        AuthDto.Response authResDto= webTestClient.post()
+        AuthDto.Response authResDto = webTestClient.post()
                 .uri("/api/Auth/SignUp/Admin")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
@@ -77,18 +77,19 @@ public class AuthControllerTest {
                 .expectBody(AuthDto.Response.class)
                 .returnResult()
                 .getResponseBody();
-        assertThat(authResDto.getLogin_id(),is(TEST_AUTH_LOGIN_ID));
-        assertThat(authResDto.getName(),is(TEST_AUTH_NAME));
+        assertThat(authResDto.getLogin_id(), is(TEST_AUTH_LOGIN_ID));
+        assertThat(authResDto.getName(), is(TEST_AUTH_NAME));
     }
+
     @Test
-    void 회원회원가입_정상(){
+    void 회원회원가입_정상() {
         AuthDto.Request authReqDto = AuthDto.Request.builder()
                 .login_id(TEST_AUTH_LOGIN_ID)
                 .name(TEST_AUTH_NAME)
                 .password(TEST_AUTH_PASSWORD)
                 .build();
 
-        AuthDto.Response authResDto= webTestClient.post()
+        AuthDto.Response authResDto = webTestClient.post()
                 .uri("/api/Auth/SignUp/Member")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
@@ -98,13 +99,14 @@ public class AuthControllerTest {
                 .expectBody(AuthDto.Response.class)
                 .returnResult()
                 .getResponseBody();
-        assertThat(authResDto.getLogin_id(),is(TEST_AUTH_LOGIN_ID));
-        assertThat(authResDto.getName(),is(TEST_AUTH_NAME));
+        assertThat(authResDto.getLogin_id(), is(TEST_AUTH_LOGIN_ID));
+        assertThat(authResDto.getName(), is(TEST_AUTH_NAME));
     }
+
     @Test
-    void 멤버회원탈퇴(){
+    void 멤버회원탈퇴() {
         webTestClient.delete()
-                .uri("/api/Auth/Withdrawal/Member/"+testMemberId)
+                .uri("/api/Auth/Withdrawal/Member/" + testMemberId)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
@@ -112,9 +114,9 @@ public class AuthControllerTest {
     }
 
     @Test
-    void 관리자탈퇴(){
+    void 관리자탈퇴() {
         webTestClient.delete()
-                .uri("/api/Auth/Withdrawal/Admin/"+testAdminId)
+                .uri("/api/Auth/Withdrawal/Admin/" + testAdminId)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
@@ -129,7 +131,7 @@ public class AuthControllerTest {
                 .password(TEST_AUTH_PASSWORD)
                 .build();
 
-        AuthDto.Response authResDto= webTestClient.post()
+        AuthDto.Response authResDto = webTestClient.post()
                 .uri("/api/Auth/SignUp/Admin")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
@@ -141,7 +143,7 @@ public class AuthControllerTest {
                 .returnResult()
                 .getResponseBody();
 
-        assertThat(authResDto.getLogin_id(),not(TEST_AUTH_LOGIN_ID));
-        assertThat(authResDto.getName(),is(TEST_AUTH_NAME));
+        assertThat(authResDto.getLogin_id(), not(TEST_AUTH_LOGIN_ID));
+        assertThat(authResDto.getName(), is(TEST_AUTH_NAME));
     }
 }
