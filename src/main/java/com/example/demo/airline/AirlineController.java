@@ -14,32 +14,35 @@ public class AirlineController {
 
     @PostMapping("/Airline")
     ResponseEntity<AirlineDto.Response> register(@RequestBody AirlineDto.Request reqDto
-        , @RequestHeader(value = "Authorization") String authorization){
+            , @RequestHeader(value = "Authorization") String authorization) {
         AirlineDto.Response resDto = airlineService.airlineCreate(reqDto, authorization);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(resDto);
     }
+
     @DeleteMapping("/Airline/{AirlineID}")
     ResponseEntity<AirlineDto.Response> unRegister(@RequestHeader(value = "Authorization") String authorization,
-                                                   @PathVariable("AirlineId") Long id){
-        airlineService.airlineDelete(id,authorization);
+                                                   @PathVariable("AirlineID") Long AirlineId) {
+        airlineService.airlineDelete(AirlineId, authorization);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .build();
     }
+
     @PatchMapping("/Airline/{AirlineID}")
-    ResponseEntity<AirlineDto.Response> update(@RequestHeader(value = "Authorization") String authorization,
-        @RequestBody AirlineDto.Request reqDto, @PathVariable("AirlineId") Long id){
-        AirlineDto.Response resDto = airlineService.airlineUpdate(id, reqDto, authorization);
+    ResponseEntity<AirlineDto.Response> update(@RequestBody AirlineDto.Request reqDto,
+           @PathVariable("AirlineID") Long AirlineID, @RequestHeader(value = "Authorization") String authorization) {
+        AirlineDto.Response resDto = airlineService.airlineUpdate(AirlineID, reqDto, authorization);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(resDto);
     }
+
     @GetMapping("/Airline/{AirlineID}")
     ResponseEntity<AirlineDto.Response> search(@RequestHeader(value = "Authorization") String authorization,
-                                               @PathVariable("AirlineId") Long id){
-        AirlineDto.Response resDto = airlineService.airlineFind(id,authorization);
+                                               @PathVariable("AirlineID") Long AirlineID) {
+        AirlineDto.Response resDto = airlineService.airlineFind(AirlineID, authorization);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(resDto);

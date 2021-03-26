@@ -4,6 +4,7 @@ import com.example.demo.airline.dto.AirlineDto;
 import com.example.demo.user.dto.AuthDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import reactor.core.publisher.Mono;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureWebTestClient
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AirlineControllerTest {
     private static final String TEST_AUTH_LOGIN_ID = "testerId";
@@ -32,7 +32,7 @@ public class AirlineControllerTest {
     private Long testAdminId;
     private Long testAirlineId;
 
-    @BeforeAll
+    @BeforeEach
     void 항공사및관리자생성() {
         AuthDto.Request authReqDto = AuthDto.Request.builder()
                 .login_id(TEST_AUTH_LOGIN_ID)
@@ -53,7 +53,7 @@ public class AirlineControllerTest {
                 .name(TEST_AIRLINE_NAME)
                 .country(TEST_AIRLINE_COUNTRY)
                 .build();
-        //when
+
         AirlineDto.Response airlineResDto = webTestClient.post()
                 .uri("/api/Airline")
                 .header("Authorization", String.valueOf(testAdminId))
@@ -95,19 +95,21 @@ public class AirlineControllerTest {
         //given
         //when
         webTestClient.delete()
-                .uri("/api/Airline/"+testAirlineId)
+                .uri("/api/Airline/" + testAirlineId)
                 .header("Authorization", String.valueOf(testAdminId))
                 .exchange()
                 .expectStatus().isOk();
         //then
     }
-    @Test
-    void 항공사조회(){
-        //given
 
+    @Test
+    void 항공사조회() {
+        //given
+        System.out.println(testAdminId);
+        System.out.println(testAirlineId);
         //when
         AirlineDto.Response airlineResDto = webTestClient.get()
-                .uri("/api/Airline/"+testAirlineId)
+                .uri("/api/Airline/" + testAirlineId)
                 .header("Authorization", String.valueOf(testAdminId))
                 .exchange()
                 .expectStatus().isOk()
@@ -117,8 +119,9 @@ public class AirlineControllerTest {
         //then
         assertThat(airlineResDto.getId()).isEqualTo(testAirlineId);
     }
+
     @Test
-    void 항공사수정(){
+    void 항공사수정() {
         //given
         AirlineDto.Request airlineReqDto = AirlineDto.Request.builder()
                 .name("modifiedName")
@@ -126,13 +129,13 @@ public class AirlineControllerTest {
                 .build();
         //when
         AirlineDto.Response airlineResDto = webTestClient.patch()
-                .uri("/api/Airline/"+testAirlineId)
+                .uri("/api/Airline/" + testAirlineId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", String.valueOf(testAdminId))
                 .body(Mono.just(airlineReqDto), AirlineDto.Request.class)
                 .exchange()
-                .expectStatus().isCreated()
+                .expectStatus().isOk()
                 .expectBody(AirlineDto.Response.class)
                 .returnResult()
                 .getResponseBody();

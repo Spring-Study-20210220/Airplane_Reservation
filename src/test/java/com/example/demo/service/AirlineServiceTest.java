@@ -9,6 +9,7 @@ import com.example.demo.user.AdminAuthorizeService;
 import com.example.demo.user.AdminRepository;
 import com.example.demo.user.Authservice;
 import com.example.demo.user.dto.AuthDto;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -16,9 +17,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.verification.VerificationMode;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,13 +30,14 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class AirlineServiceTest {
     private static final String TEST_AUTH_LOGIN_ID = "testerId";
     private static final String TEST_AUTH_NAME = "testerName";
     private static final String TEST_AUTH_PASSWORD = "testerPW";
     private static final String TEST_AIRLINE_NAME = "testName";
     private static final String TEST_AIRLINE_COUNTRY = "testCountry";
+    private static final Long TEST_AIRLINE_ID = 1L;
     private static final String TEST_ADMIN_ID = "1";
     @InjectMocks
     private AirlineService airlineService;
@@ -41,37 +46,25 @@ public class AirlineServiceTest {
     @Mock
     private AdminAuthorizeService adminAuthorizeService;
 
+    private static Airline airline;
+    private static AirlineDto.Request reqDto;
+
     @BeforeAll
-    void setUp() {
-        AirlineDto.Request reqDto = AirlineDto.Request.builder()
+    static void setUp() {
+        reqDto = AirlineDto.Request.builder()
                 .name(TEST_AIRLINE_NAME)
                 .country(TEST_AIRLINE_COUNTRY)
                 .build();
-
-        Airline airline = Airline.builder()
-                .name(reqDto.getName())
-                .country(reqDto.getCountry())
+        airline = Airline.builder()
+                .name(TEST_AIRLINE_NAME)
+                .country(TEST_AIRLINE_COUNTRY)
                 .build();
-
-        given(airlineRepository.save(any())).willReturn(airline);
-        given(adminAuthorizeService.authorize(any())).willReturn(true);
-
-        AirlineDto.Response resDto = airlineService.airlineCreate(reqDto,TEST_ADMIN_ID);
     }
 
     @Test
     void 항공사생성_정상() {
-        AirlineDto.Request reqDto = AirlineDto.Request.builder()
-                .name(TEST_AIRLINE_NAME)
-                .country(TEST_AIRLINE_COUNTRY)
-                .build();
-
-        Airline airline = Airline.builder()
-                .name(reqDto.getName())
-                .country(reqDto.getCountry())
-                .build();
-
         given(airlineRepository.save(any())).willReturn(airline);
+        given(adminAuthorizeService.authorize(any())).willReturn(true);
 
         AirlineDto.Response resDto = airlineService.airlineCreate(reqDto,TEST_ADMIN_ID);
 
@@ -81,25 +74,39 @@ public class AirlineServiceTest {
 
     @Test
     void 항공사삭제_정상() {
-        airlineService.airlineDelete(1L,"1");
+        given(airlineRepository.findById(any())).willReturn(Optional.of(airline));
+        given(adminAuthorizeService.authorize(any())).willReturn(true);
+
+        airlineService.airlineDelete(TEST_AIRLINE_ID,TEST_ADMIN_ID);
+
         verify(airlineRepository,times(1)).delete(any());
     }
 
     @Test
     void 항공사수정_정상() {
-        AirlineDto.Request reqDto = AirlineDto.Request.builder()
+        Airline testAirline = Airline.builder()
+                .name(TEST_AIRLINE_NAME)
+                .country(TEST_AIRLINE_COUNTRY)
+                .build();
+        AirlineDto.Request updateReqDto = AirlineDto.Request.builder()
                 .name("updateName")
                 .country("updateCountry")
                 .build();
-        AirlineDto.Response resDto =  airlineService.airlineUpdate(1L,reqDto,"1");
+        given(airlineRepository.findById(any())).willReturn(Optional.of(testAirline));
+        given(adminAuthorizeService.authorize(any())).willReturn(true);
 
-        assertThat(resDto.getName()).isEqualTo(reqDto.getName());
-        assertThat(resDto.getCountry()).isEqualTo(reqDto.getCountry());
+        AirlineDto.Response resDto = airlineService.airlineUpdate(TEST_AIRLINE_ID,updateReqDto,TEST_ADMIN_ID);
+
+        assertThat(resDto.getName()).isEqualTo(updateReqDto.getName());
+        assertThat(resDto.getCountry()).isEqualTo(updateReqDto.getCountry());
     }
 
     @Test
     void 항공사조회_정상() {
-        AirlineDto.Response resDto = airlineService.airlineFind(1L,"1");
+        given(airlineRepository.findById(any())).willReturn(Optional.of(airline));
+        given(adminAuthorizeService.authorize(any())).willReturn(true);
+
+        AirlineDto.Response resDto = airlineService.airlineFind(TEST_AIRLINE_ID,TEST_ADMIN_ID);
 
         assertThat(resDto.getName()).isEqualTo(TEST_AIRLINE_NAME);
         assertThat(resDto.getCountry()).isEqualTo(TEST_AIRLINE_COUNTRY);
