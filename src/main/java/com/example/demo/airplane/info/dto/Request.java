@@ -68,4 +68,19 @@ public class Request {
             this.time = time;
         }
     }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    public static class SearchForm {
+
+        private String searchType;
+
+        private String searchValue;
+
+        public SearchForm(String searchType, String searchValue) {
+            this.searchType = searchType;
+            this.searchValue = searchValue;
+        }
+    }
 }
