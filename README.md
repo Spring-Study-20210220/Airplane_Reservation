@@ -16,7 +16,10 @@
 - Spring Data JPA
 
 ## ER Diagram
-![Airplane_Reservation](./img/AirplaneERDiagram.png)
+![Airplane_Reservation](./img/Airplane_Reservation(1).png)
+<br></br>
+<br></br>
+![Airplane_Reservation](./img/Airplane_Reservation(2)%20(1).png)
 
 ## API 명세
 
@@ -56,4 +59,7 @@
 |POST|sign-in|email : String, password : String|
 |GET|sign-out|
 
-## Class Diagram
+## 오류사항 및 기술도입
+- DB 초기화를 위한 data.sql 도입기
+- EventListener 도입기
+- user와 ticket사이의 관계성 설정 (다대다, 일대다)
