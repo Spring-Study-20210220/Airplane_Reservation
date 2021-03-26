@@ -18,20 +18,25 @@ public class AirplaneInfoController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody @Valid Request.Save saveDto) {
+    public ResponseEntity<Response.Save> save(@RequestBody @Valid Request.Save saveDto) {
 
         Long result = airplaneInfoService.save(saveDto.toEntity());
 
         return ResponseEntity.ok(new Response.Save(result));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody @Valid Request.Update updateDto) {
-
-        Long result = airplaneInfoService.update(updateDto);
-
-        return ResponseEntity.ok(new Response.Update(result));
+    @GetMapping("/list")
+    public ResponseEntity<Response.AirplaneInfoList> getList() {
+        return ResponseEntity.ok(airplaneInfoService.findAll());
     }
+
+    @GetMapping("")
+    public ResponseEntity<Response.AirplaneInfo> getAirplane(
+            Request.SearchForm searchForm
+    ) {
+        return ResponseEntity.ok(airplaneInfoService.getAirplaneInfo(searchForm));
+    }
+
 }
 
 /*

@@ -1,9 +1,9 @@
 package com.example.demo.airplane.info;
 
+import com.example.demo.airplane.info.dto.Request;
 import com.example.demo.airplane.info.dto.Response;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AirplaneInfoService {
@@ -22,9 +22,13 @@ public class AirplaneInfoService {
         return result.getId();
     }
 
-    @Transactional
-    public Long update(AirplaneInfo airplaneInfo) {
+    @Transactional(readOnly = true)
+    public Response.AirplaneInfoList findAll() {
 
+        return new Response.AirplaneInfoList(airplaneInfoRepository.findAll());
+    }
+
+    public Response.AirplaneInfo getAirplaneInfo(Request.SearchForm searchForm) {
         return null;
     }
 }

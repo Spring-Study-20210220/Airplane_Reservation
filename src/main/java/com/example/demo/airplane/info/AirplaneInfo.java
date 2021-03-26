@@ -12,6 +12,7 @@ import java.time.LocalTime;
 @Getter
 @Builder
 @NoArgsConstructor
+@Table(name = "airplane_info")
 public class AirplaneInfo {
 
     @Id
