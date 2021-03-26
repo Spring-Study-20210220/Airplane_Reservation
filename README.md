@@ -16,10 +16,7 @@
 - Spring Data JPA
 
 ## ER Diagram
-![Airplane_Reservation](./img/Airplane_Reservation(1).png)
-<br></br>
-<br></br>
-![Airplane_Reservation](./img/Airplane_Reservation(2)%20(1).png)
+![Airplane_Reservation](./img/Airplane_Reservation(2).png)
 
 ## API 명세
 
