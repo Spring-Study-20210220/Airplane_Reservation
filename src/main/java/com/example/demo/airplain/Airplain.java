@@ -2,13 +2,17 @@ package com.example.demo.airplain;
 
 import com.example.demo.airplain.dto.AirplaneDto;
 import com.example.demo.airplain.seat.Seat;
+import com.example.demo.airplain.seat.SeatClass;
+import com.example.demo.airplain.seat.SeatInfo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -31,7 +35,7 @@ public class Airplain {
     private AirplaneType airplaneType;
 
     @OneToMany(mappedBy = "airplain")
-    private List<Seat> seats;
+    private Set<Seat> seats = new HashSet<Seat>();
 
     @Builder
     Airplain(String name, LocalDateTime takeOffTime, LocalDateTime landingTime,
@@ -42,9 +46,10 @@ public class Airplain {
         this.landingTime = landingTime;
         this.landing = landing;
         this.airplaneType = airplaneType;
+        generateSeatRows();
     }
 
-    AirplaneDto.Response toResponseDto(){
+    AirplaneDto.Response toResponseDto() {
         return AirplaneDto.Response.builder()
                 .id(id)
                 .name(name)
@@ -56,4 +61,39 @@ public class Airplain {
                 .build();
     }
 
+    private void addSeat(Seat seat) {
+        seats.add(seat);
+        seat.registerAirplain(this);
+    }
+
+    private void generateSeatRows() {
+        int rows = airplaneType.getNumberOfRow();
+        int firstClassRow = airplaneType.getFirstClassRowCnt();
+        int businessClassRow = airplaneType.getBusinessClassRowCnt();
+        int economyClassRow = rows - firstClassRow - businessClassRow;
+        for (int i = 0; i < firstClassRow; i++) {
+            generateSeatAlphabets(i + 1, SeatClass.FIRST);
+        }
+        for (int i = 0; i < businessClassRow; i++) {
+            generateSeatAlphabets(i + 1, SeatClass.BUSINESS);
+        }
+        for (int i = 0; i < economyClassRow; i++) {
+            generateSeatAlphabets(i + 1, SeatClass.ECONOMY);
+        }
+    }
+
+    private void generateSeatAlphabets(int row, SeatClass seatClass) {
+        List<String> alphabets = airplaneType.getSeatAlphabets();
+        for (String alphabet : alphabets) {
+            SeatInfo seatInfo = SeatInfo.builder()
+                    .row(row)
+                    .alphabet(alphabet)
+                    .build();
+            Seat seat = Seat.builder()
+                    .seatInfo(seatInfo)
+                    .seatClass(seatClass)
+                    .build();
+            addSeat(seat);
+        }
+    }
 }
