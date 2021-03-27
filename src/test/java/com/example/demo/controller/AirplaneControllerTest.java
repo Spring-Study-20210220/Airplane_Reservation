@@ -74,7 +74,7 @@ public class AirplaneControllerTest {
                 .airplaneType(AirplaneType.A220)
                 .build();
 
-        webTestClient.post().uri("/api/Airline/ "+ +"/Airplane")
+        webTestClient.post().uri("/api/Airline/ "+"/Airplane");
     }
 
 

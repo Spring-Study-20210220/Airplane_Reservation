@@ -32,4 +32,5 @@ public enum AirplaneType {
         this.firstClassRowCnt = firstClassRowCnt;
         this.businessClassRowCnt = businessClassRowCnt;
     }
+
 }
