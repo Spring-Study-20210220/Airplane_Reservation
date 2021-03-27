@@ -20,28 +20,28 @@
 
 ## API 명세
 
-### AirplaneInfo
+### Airplane
 
 |HttpMethod|url|parameters|
 |---|---|---|
-|POST|airplane-info| departure : String, arrival : String, take_off_date : Date|
-|GET|airplane-info/list||
-|GET|airplane-info|id : Long, departure : String, arrival : String, take_off_date : Date|  
+|POST|airplane| departure : String, arrival : String, take_off_date : Date|
+|GET|airplane/list||
+|GET|airplane|id : Long, departure : String, arrival : String, take_off_date : Date|  
 
-### AirplaneTicket
+### Ticket  
 
 |HttpMethod|url|parameters|
 |---|---|---|
-|POST|airplane-ticket|airplane_info_id : Long, class : String|
-|GET|airplane-ticket/{airplane-info-id}/list||
+|POST|ticket|airplane_id : Long, class : String|
+|GET|ticket/{airplane_id}/list||
 
 ### Reservation
 
 |HttpMethod|url|parameters|
 |---|---|---|
 |POST|reservation|user_id : Long, ticket_id : Long|
-|GET|reservation/{user-id}/list||
-|PATCH|reservation/{reservation-id}|status : String|
+|GET|reservation/{user_id}/list||
+|PATCH|reservation/{reservation_id}|status : String|
 
 ### User
 
