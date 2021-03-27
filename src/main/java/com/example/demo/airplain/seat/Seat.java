@@ -17,8 +17,8 @@ public class Seat {
     @Column(name = "SEAT_ID")
     private Long id;
 
-    @Column(nullable = false)
-    boolean booked;
+    @Enumerated(EnumType.STRING)
+    private SeatStatus seatStatus=SeatStatus.AVAILABLE;
 
     @Enumerated(EnumType.STRING)
     private SeatClass seatClass;
@@ -34,5 +34,16 @@ public class Seat {
     Seat(SeatClass seatClass, SeatInfo seatInfo) {
         this.seatClass = seatClass;
         this.seatInfo = seatInfo;
+    }
+
+    public void registerAirplain(Airplain airplain){
+        this.airplain=airplain;
+    }
+
+    public void bookSeat(){
+        this.seatStatus=SeatStatus.UNAVAILABLE;
+    }
+    public void unBookSeat(){
+        this.seatStatus=SeatStatus.AVAILABLE;
     }
 }
