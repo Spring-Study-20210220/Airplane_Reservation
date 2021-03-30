@@ -1,19 +1,20 @@
 package com.example.demo.controller;
 
+import com.example.demo.Error.ErrorCode;
+import com.example.demo.Error.ErrorResponse;
 import com.example.demo.user.dto.AuthDto;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
 
@@ -82,6 +83,50 @@ public class AuthControllerTest {
     }
 
     @Test
+    void 관리자회원가입_비정상(){
+        AuthDto.Request authReqDto = AuthDto.Request.builder()
+                .login_id(TEST_AUTH_LOGIN_ID)
+                .name("김")
+                .password(TEST_AUTH_PASSWORD)
+                .build();
+
+        ErrorResponse errorRes = webTestClient.post()
+                .uri("/api/Auth/SignUp/Admin")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(Mono.just(authReqDto), AuthDto.Request.class)
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody(ErrorResponse.class)
+                .returnResult()
+                .getResponseBody();
+        assertThat(errorRes.getStatus(), is(HttpStatus.BAD_REQUEST));
+        assertThat(errorRes.getCode(), is(ErrorCode.INVALID_INPUT_VALUE.getCode()));
+    }
+
+    @Test
+    void 회원회원가입_비정상() {
+        AuthDto.Request authReqDto = AuthDto.Request.builder()
+                .login_id(TEST_AUTH_LOGIN_ID)
+                .name("김")
+                .password(TEST_AUTH_PASSWORD)
+                .build();
+
+        ErrorResponse errorRes = webTestClient.post()
+                .uri("/api/Auth/SignUp/Member")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(Mono.just(authReqDto), AuthDto.Request.class)
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody(ErrorResponse.class)
+                .returnResult()
+                .getResponseBody();
+        assertThat(errorRes.getStatus(), is(HttpStatus.BAD_REQUEST));
+        assertThat(errorRes.getCode(), is(ErrorCode.INVALID_INPUT_VALUE.getCode()));
+    }
+
+    @Test
     void 회원회원가입_정상() {
         AuthDto.Request authReqDto = AuthDto.Request.builder()
                 .login_id(TEST_AUTH_LOGIN_ID)
@@ -123,27 +168,4 @@ public class AuthControllerTest {
                 .returnResult();
     }
 
-    @Disabled
-    void 관리자회원가입_비정상() {
-        AuthDto.Request authReqDto = AuthDto.Request.builder()
-                .login_id(TEST_AUTH_LOGIN_ID)
-                .name(TEST_AUTH_NAME)
-                .password(TEST_AUTH_PASSWORD)
-                .build();
-
-        AuthDto.Response authResDto = webTestClient.post()
-                .uri("/api/Auth/SignUp/Admin")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .body(Mono.just(authReqDto), AuthDto.Request.class)
-                .exchange()
-                .expectStatus().isCreated()
-                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-                .expectBody(AuthDto.Response.class)
-                .returnResult()
-                .getResponseBody();
-
-        assertThat(authResDto.getLogin_id(), not(TEST_AUTH_LOGIN_ID));
-        assertThat(authResDto.getName(), is(TEST_AUTH_NAME));
-    }
 }
