@@ -23,7 +23,7 @@ public class AirlineService {
 
     public Airline findOne(Long airlineId) {
         return airlineRepository.findById(airlineId)
-                .orElseThrow(() -> new IllegalArgumentException(Message.EMPTY_AIRLINE));
+                .orElseThrow(() -> new IllegalArgumentException(Message.EMPTY_SEAT));
     }
 
     public List<Airline> findAll() {

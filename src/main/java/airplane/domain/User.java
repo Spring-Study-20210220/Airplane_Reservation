@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -28,6 +30,9 @@ public class User {
     @Column(nullable = false)
     @ColumnDefault("0")
     private int mileage;
+
+    @OneToMany(mappedBy = "User")
+    private List<Reservation> reservationList = new ArrayList<>();
 
     @Builder(builderMethodName = "defaultBuilder", builderClassName = "defaultBuilder")
     public User(Airline airline, User user) {

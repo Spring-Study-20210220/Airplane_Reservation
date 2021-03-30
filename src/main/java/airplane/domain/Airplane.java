@@ -17,6 +17,9 @@ public class Airplane {
     @Column(nullable = false)
     private int capacity;
 
+    @OneToOne
+    private Schedule schedule;
+
     @OneToMany(mappedBy = "Airplane")
     private List<Seat> seatList;
 

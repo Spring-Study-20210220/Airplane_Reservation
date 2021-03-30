@@ -11,3 +11,10 @@ INSERT INTO Schedule(id, airline_id, arrivals, departures, arrival_time, departu
 INSERT INTO Schedule(id, airline_id, arrivals, departures, arrival_time, departure_time) VALUES (null, 2L, '출발지3', '도착지3', '2021-03-23', '2021-03-27');
 INSERT INTO Schedule(id, airline_id, arrivals, departures, arrival_time, departure_time) VALUES (null, 2L, '출발지4', '도착지4', '2021-03-24', '2021-03-27');
 INSERT INTO Schedule(id, airline_id, arrivals, departures, arrival_time, departure_time) VALUES (null, 2L, '출발지5', '도착지5', '2021-03-25', '2021-03-27');
+
+INSERT INTO Airplane(id, capacity, schedule_id) VALUES(null, 100);
+INSERT INTO Airplane(id, capacity) VALUES(null, 200);
+INSERT INTO Airplane(id, capacity) VALUES(null, 300);
+
+
+

@@ -1,6 +1,7 @@
 package airplane.service;
 
 import airplane.domain.Airline;
+import airplane.domain.Reservation;
 import airplane.domain.User;
 import airplane.dto.UserJoinDTO;
 import airplane.repository.UserRepository;
@@ -11,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -84,5 +86,21 @@ public class UserServiceTest {
         assertThat(result.getPassword()).isEqualTo(saveUser.getPassword());
         assertThat(result.getMileage()).isEqualTo(0);
         assertThat(result.getAirline()).isEqualTo(saveUser.getAirline());
+    }
+
+    @Test
+    void 특정사용자의예약목록을조회한다() {
+        //given
+        Long userId = 1L;
+        Reservation testReservation = Reservation.createBuilder().price(1000).build();
+        testReservation.setUser(user);
+        given(userRepository.findById(any())).willReturn(Optional.of(user));
+
+        //when
+        List<Reservation> reservationList = userService.findReservation(userId);
+
+        //then
+        assertThat(reservationList.size()).isEqualTo(1);
+        assertThat(reservationList.get(0).getUser()).isEqualTo(user);
     }
 }

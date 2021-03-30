@@ -1,5 +1,6 @@
 package airplane.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,12 @@ public class Seat {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private SeatStatus status;
+
+    @Builder(builderClassName = "defaultBuilder", builderMethodName = "defaultBuilder")
+    public Seat(int seatNumber, Airplane airplane, ClassSeat classSeat, SeatStatus status) {
+        this.seatNumber = seatNumber;
+        this.airplane = airplane;
+        this.classSeat = classSeat;
+        this.status = status;
+    }
 }
