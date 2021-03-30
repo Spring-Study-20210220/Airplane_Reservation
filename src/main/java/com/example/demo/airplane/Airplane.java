@@ -33,13 +33,13 @@ public class Airplane {
     private LocalTime takeOffTime;
 
     @Column
-    private int firstClassCount;
+    private Integer firstCnt;
 
     @Column
-    private int businessClassCount;
+    private Integer businessCnt;
 
     @Column
-    private int economyClassCount;
+    private Integer economyCnt;
 
     public Airplane(Long id, String departure, String arrival, LocalDate takeOffDate, LocalTime takeOffTime,
                     int firstClassCount, int businessClassCount, int economyClassCount) {
@@ -48,8 +48,8 @@ public class Airplane {
         this.arrival = arrival;
         this.takeOffDate = takeOffDate;
         this.takeOffTime = takeOffTime;
-        this.firstClassCount = firstClassCount;
-        this.businessClassCount = businessClassCount;
-        this.economyClassCount = economyClassCount;
+        this.firstCnt = firstClassCount;
+        this.businessCnt = businessClassCount;
+        this.economyCnt = economyClassCount;
     }
 }
