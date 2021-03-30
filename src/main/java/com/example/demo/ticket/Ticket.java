@@ -15,7 +15,7 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "ticket_id")
     private Long id;
 
     @Column
@@ -29,7 +29,7 @@ public class Ticket {
     private int price;
 
     @ManyToOne
-    @JoinColumn(name = "airplane_id", referencedColumnName = "id")
+    @JoinColumn(name = "airplane_id", referencedColumnName = "airplane_id")
     private Airplane airplane;
 
     public void setAirplane(Airplane airplane) {

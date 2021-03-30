@@ -17,7 +17,7 @@ public class TicketRequest {
     public static class Save {
 
         @NotNull
-        private Long airplaneInfoId;
+        private Long airplaneId;
 
         @NotBlank
         private String seatClass;
@@ -28,8 +28,8 @@ public class TicketRequest {
         @NotNull
         private Integer price;
 
-        public Save(Long airplaneInfoId, String seatClass, String seatNo, Integer price) {
-            this.airplaneInfoId = airplaneInfoId;
+        public Save(Long airplaneId, String seatClass, String seatNo, Integer price) {
+            this.airplaneId = airplaneId;
             this.seatClass = seatClass;
             this.seatNo = seatNo;
             this.price = price;
@@ -37,8 +37,11 @@ public class TicketRequest {
 
         public Ticket toEntity(TicketRequest.Save saveDto) {
 
-
-            return null;
+            return Ticket.builder()
+                    .price(saveDto.getPrice())
+                    .seatNumber(saveDto.getSeatNo())
+                    .seatClass(SeatClass.valueOf(saveDto.getSeatClass()))
+                    .build();
         }
     }
 }
