@@ -4,12 +4,8 @@ import com.example.demo.airline.Airline;
 import com.example.demo.airline.AirlineRepository;
 import com.example.demo.airline.AirlineService;
 import com.example.demo.airline.dto.AirlineDto;
-import com.example.demo.user.Admin;
 import com.example.demo.user.AdminAuthorizeService;
-import com.example.demo.user.AdminRepository;
-import com.example.demo.user.Authservice;
-import com.example.demo.user.dto.AuthDto;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -17,11 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.verification.VerificationMode;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -65,11 +58,29 @@ public class AirlineServiceTest {
     void 항공사생성_정상() {
         given(airlineRepository.save(any())).willReturn(airline);
         given(adminAuthorizeService.authorize(any())).willReturn(true);
+        given(airlineRepository.findByName(any())).willReturn(Optional.empty());
 
         AirlineDto.Response resDto = airlineService.airlineCreate(reqDto,TEST_ADMIN_ID);
 
         assertThat(resDto.getName()).isEqualTo(reqDto.getName());
         assertThat(resDto.getCountry()).isEqualTo(resDto.getCountry());
+    }
+
+    @Test
+    void 항공사중복생성() {
+        given(airlineRepository.findByName(any())).willReturn(Optional.of(airline));
+        given(adminAuthorizeService.authorize(any())).willReturn(true);
+        Assertions.assertThatThrownBy(
+                ()->airlineService.airlineCreate(reqDto,TEST_ADMIN_ID)
+        ).isInstanceOf(AirlineNameDuplicationException.class);
+    }
+
+    @Test
+    void 권한없음() {
+        given(adminAuthorizeService.authorize(any())).willReturn(false);
+        Assertions.assertThatThrownBy(
+                ()->airlineService.airlineCreate(reqDto,TEST_ADMIN_ID)
+        ).isInstanceOf(UnAuthorizedUserException.class);
     }
 
     @Test
