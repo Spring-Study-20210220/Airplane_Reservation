@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import com.example.demo.Error.Exception.AirlineNameDuplicationException;
+import com.example.demo.Error.Exception.UnAuthorizedUserException;
 import com.example.demo.airline.Airline;
 import com.example.demo.airline.AirlineRepository;
 import com.example.demo.airline.AirlineService;
@@ -18,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
