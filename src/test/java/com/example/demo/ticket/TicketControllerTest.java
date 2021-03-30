@@ -34,7 +34,7 @@ class TicketControllerTest {
     void saveTicket() throws Exception {
 
         TicketRequest.Save request = TicketRequest.Save.builder()
-                .airplaneInfoId(1L)
+                .airplaneId(1L)
                 .seatClass("ECONOMY")
                 .seatNo("1A")
                 .price(5000)
@@ -52,9 +52,4 @@ class TicketControllerTest {
                 .andDo(print());
     }
 
-    @Test
-    @DisplayName("티켓 리스트 불러오는 테스트")
-    void getTicketList() throws Exception {
-
-    }
 }

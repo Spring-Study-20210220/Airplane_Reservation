@@ -38,9 +38,9 @@ public class TicketServiceTest {
             .arrival("대구")
             .takeOffDate(LocalDate.now())
             .takeOffTime(LocalTime.now())
-            .businessClassCount(10)
-            .economyClassCount(10)
-            .firstClassCount(0)
+            .businessCnt(10)
+            .economyCnt(10)
+            .firstCnt(0)
             .build();
 
     @Test
