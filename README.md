@@ -32,8 +32,7 @@
 >
 > - Unit test를 위해 Mock와 RestTemplate을 활용
 ### Entity 분석
-![image](https://user-images.githubusercontent.com/59992230/112649121-7df9fc00-8e8d-11eb-87a7-0ba43846e880.png)
-
+![image](https://user-images.githubusercontent.com/59992230/112981593-63c66380-9196-11eb-8cfe-565995a716b0.png)
 
 ### API document
 **User**
