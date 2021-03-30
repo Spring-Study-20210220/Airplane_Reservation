@@ -7,14 +7,19 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Size;
 
 public class AuthDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Request{
-
+        @Length(min = 5,max = 20)
         private String login_id;
+        @Length(min = 6, max = 20)
         private String password;
+        @Length(min = 2,max = 10)
         private String name;
 
         @Builder
