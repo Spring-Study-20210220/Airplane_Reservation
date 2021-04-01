@@ -84,7 +84,7 @@ public class ScheduleControllerTest {
     void schedule을삭제한다() {
         //given
         Map<String, Long> uriVariable = new HashMap<>();
-        Long scheduleId = 1L;
+        Long scheduleId = 100L;
         uriVariable.put("schedule_id", scheduleId);
 
         //when

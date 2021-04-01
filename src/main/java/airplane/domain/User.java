@@ -15,7 +15,6 @@ import java.util.List;
 @Getter
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", nullable = false)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,7 +27,8 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private double mileage = 0;
+    @ColumnDefault("0")
+    private double mileage;
 
     @Transient
     private UserGrade grade = UserGrade.GOLD;
@@ -51,6 +51,11 @@ public class User {
 
     public void accumulate(int price) {
         this.mileage += grade.mileageCalc(price);
+        this.grade = UserGrade.match(mileage);
+    }
+
+    public void cancelAccumulate(int price) {
+        this.mileage -= grade.mileageCalc(price);
         this.grade = UserGrade.match(mileage);
     }
 

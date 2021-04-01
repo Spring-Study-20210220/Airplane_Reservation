@@ -1,4 +1,4 @@
-package airplane.domain;
+package airplane.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

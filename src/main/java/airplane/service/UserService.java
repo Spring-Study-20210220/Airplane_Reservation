@@ -19,6 +19,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final AirlineService airlineService;
 
+    @Transactional
     public User save(User saveUser, Long airlineId) {
         Airline airline = airlineService.findOne(airlineId);
         User user = User.defaultBuilder()

@@ -11,4 +11,6 @@ public class Message {
     public static final String EMPTY_SEAT = "해당 좌석이 존재하지 않습니다";
 
     public static final String EMPTY_RESERVATION = "해당 예약이 존재하지 않습니다";
+
+    public static final String EMPTY_PAYMENT = "해당 결제 내역이 존재하지 않습니다";
 }

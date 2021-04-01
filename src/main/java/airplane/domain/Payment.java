@@ -34,6 +34,10 @@ public class Payment {
     private LocalDate date = LocalDate.now(); // 결제일자
 
 
+    public void cancel() {
+        this.status = PaymentStatus.CANCELD;
+    }
+
     @Builder(builderClassName = "createBuilder", builderMethodName ="createBuilder")
     public Payment(int amount, String account) {
         this.amount = amount;

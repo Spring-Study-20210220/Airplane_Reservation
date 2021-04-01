@@ -1,6 +1,8 @@
-package airplane.domain;
+package airplane.dto;
 
-import airplane.dto.ScheduleDTO;
+import airplane.domain.ClassSeat;
+import airplane.domain.Reservation;
+import airplane.domain.ReservationStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

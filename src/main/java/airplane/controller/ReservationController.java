@@ -1,8 +1,8 @@
 package airplane.controller;
 
 import airplane.domain.Reservation;
-import airplane.domain.ReservationDTO;
-import airplane.domain.ReservationRequest;
+import airplane.dto.ReservationDTO;
+import airplane.dto.ReservationRequest;
 import airplane.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class ReservationController {
     }
 
     @PostMapping("{reservation_id}/cancel")
-    public ResponseEntity<ReservationDTO> cancel (@PathVariable("reservation_id") Long reservationId) {
+    public ResponseEntity<ReservationDTO> cancel(@PathVariable("reservation_id") Long reservationId) {
         Reservation cancelReservation = reservationService.cancel(reservationId);
         return ResponseEntity.ok(new ReservationDTO(cancelReservation));
     }

@@ -40,9 +40,13 @@ public class ReservationService {
 
     @Transactional
     public Reservation cancel(Long reservationId) {
-        Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new IllegalArgumentException(Message.EMPTY_RESERVATION));
+        Reservation reservation = findOne(reservationId);
         reservation.cancel();
         return reservation;
+    }
+
+    public Reservation findOne(Long reservationId) {
+        return reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new IllegalArgumentException(Message.EMPTY_RESERVATION));
     }
 }

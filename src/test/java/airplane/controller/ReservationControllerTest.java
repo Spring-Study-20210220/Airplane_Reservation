@@ -1,7 +1,7 @@
 package airplane.controller;
 
-import airplane.domain.ReservationDTO;
-import airplane.domain.ReservationRequest;
+import airplane.dto.ReservationDTO;
+import airplane.dto.ReservationRequest;
 import airplane.domain.ReservationStatus;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
