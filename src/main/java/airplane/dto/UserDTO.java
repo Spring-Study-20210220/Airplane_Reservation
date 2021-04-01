@@ -13,7 +13,7 @@ public class UserDTO {
     private Long id;
     private Long airlineId;
     private String email;
-    private int mileage;
+    private double mileage;
     private UserGrade grade;
 
     public UserDTO(User user) {

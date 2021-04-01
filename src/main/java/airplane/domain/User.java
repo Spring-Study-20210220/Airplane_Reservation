@@ -28,10 +28,9 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    @ColumnDefault("0")
-    private int mileage;
+    private double mileage = 0;
 
-    @Enumerated(EnumType.STRING)
+    @Transient
     private UserGrade grade = UserGrade.GOLD;
 
     @OneToMany(mappedBy = "user")
@@ -50,5 +49,14 @@ public class User {
         this.password = userJoinDTO.getPassword();
     }
 
+    public void accumulate(int price) {
+        this.mileage += grade.mileageCalc(price);
+        this.grade = UserGrade.match(mileage);
+    }
+
+    @PostLoad
+    void fillTransient() {
+        this.grade = UserGrade.match(mileage);
+    }
 
 }
