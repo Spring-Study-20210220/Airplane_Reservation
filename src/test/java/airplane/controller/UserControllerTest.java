@@ -1,5 +1,6 @@
 package airplane.controller;
 
+import airplane.domain.UserGrade;
 import airplane.dto.UserDTO;
 import airplane.dto.UserJoinDTO;
 import org.junit.jupiter.api.BeforeAll;
@@ -40,6 +41,7 @@ public class UserControllerTest {
         assertThat(result.getBody().getEmail()).isEqualTo(email);
         assertThat(result.getBody().getMileage()).isEqualTo(0);
         assertThat(result.getBody().getAirlineId()).isEqualTo(airlineId);
+        assertThat(result.getBody().getGrade()).isEqualTo(UserGrade.GOLD);
     }
 
 
@@ -50,5 +52,6 @@ public class UserControllerTest {
         assertThat(result.getBody().getEmail()).isEqualTo(email);
         assertThat(result.getBody().getMileage()).isEqualTo(0);
         assertThat(result.getBody().getAirlineId()).isEqualTo(airlineId);
+        assertThat(result.getBody().getGrade()).isEqualTo(UserGrade.GOLD);
     }
 }

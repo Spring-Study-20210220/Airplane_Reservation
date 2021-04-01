@@ -4,8 +4,9 @@ INSERT INTO Airline(name) VALUES('항공사3');
 INSERT INTO Airline(name) VALUES('항공사4');
 INSERT INTO Airline(name) VALUES('항공사5');
 
-INSERT INTO User(airline_id, email, password, mileage) VALUES(1L, 'email', 'password', 0);
-
+INSERT INTO User(airline_id, email, password, mileage, grade) VALUES(1L, 'email', 'password', 0, 'GOLD');
+INSERT INTO User(airline_id, email, password, mileage, grade) VALUES(2L, 'email2', 'password2', 0, 'GOLD');
+INSERT INTO User(airline_id, email, password, mileage, grade) VALUES(3L, 'email3', 'password3', 0, 'GOLD');
 
 INSERT INTO Schedule(id, airline_id, arrivals, departures, arrival_time, departure_time, capacity) VALUES (null, 1L, '출발지1', '도착지1', '2021-03-21', '2021-03-27', 100);
 INSERT INTO Schedule(id, airline_id, arrivals, departures, arrival_time, departure_time, capacity) VALUES (null, 1L, '출발지2', '도착지2', '2021-03-22', '2021-03-27', 100);

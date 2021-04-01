@@ -1,6 +1,7 @@
 package airplane.dto;
 
 import airplane.domain.User;
+import airplane.domain.UserGrade;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,11 +14,13 @@ public class UserDTO {
     private Long airlineId;
     private String email;
     private int mileage;
+    private UserGrade grade;
 
     public UserDTO(User user) {
         this.id = user.getId();
         this.airlineId = user.getAirline().getId();
         this.email = user.getEmail();
         this.mileage = user.getMileage();
+        this.grade = user.getGrade();
     }
 }

@@ -31,6 +31,9 @@ public class User {
     @ColumnDefault("0")
     private int mileage;
 
+    @Enumerated(EnumType.STRING)
+    private UserGrade grade = UserGrade.GOLD;
+
     @OneToMany(mappedBy = "user")
     private List<Reservation> reservationList = new ArrayList<>();
 
@@ -46,4 +49,6 @@ public class User {
         this.email = userJoinDTO.getEmail();
         this.password = userJoinDTO.getPassword();
     }
+
+
 }
