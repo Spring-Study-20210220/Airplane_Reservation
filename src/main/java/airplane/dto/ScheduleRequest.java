@@ -14,4 +14,5 @@ public class ScheduleRequest {
     private String departures;
     private LocalDate arrivalTime;
     private LocalDate departureTime;
+    private int capacity;
 }

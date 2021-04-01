@@ -47,7 +47,7 @@ public class ReservationServiceTest {
 
     @BeforeEach
     void setUp() {
-        ScheduleRequest scheduleRequest = new ScheduleRequest("출발지", "도착지", LocalDate.of(2021, 3, 30), LocalDate.of(2021, 3, 31));
+        ScheduleRequest scheduleRequest = new ScheduleRequest("출발지", "도착지", LocalDate.of(2021, 3, 30), LocalDate.of(2021, 3, 31), 100);
         schedule = Schedule.createBuilder()
                 .scheduleRequest(scheduleRequest)
                 .build();

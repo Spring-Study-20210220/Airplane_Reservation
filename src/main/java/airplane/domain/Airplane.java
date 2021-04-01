@@ -3,24 +3,23 @@ package airplane.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.OneToMany;
 import java.util.List;
 
-@Entity
 @NoArgsConstructor
 @Getter
+@Embeddable
 public class Airplane {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(nullable = false)
     private int capacity;
 
-    @OneToOne
-    private Schedule schedule;
-
-    @OneToMany(mappedBy = "Airplane")
+    @OneToMany(mappedBy = "schedule")
     private List<Seat> seatList;
 
+    public Airplane(int capacity) {
+        this.capacity = capacity;
+    }
 }

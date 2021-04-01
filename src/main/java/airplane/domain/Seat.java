@@ -18,7 +18,7 @@ public class Seat {
     private int seatNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Airplane airplane;
+    private Schedule schedule;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -29,9 +29,9 @@ public class Seat {
     private SeatStatus status;
 
     @Builder(builderClassName = "defaultBuilder", builderMethodName = "defaultBuilder")
-    public Seat(int seatNumber, Airplane airplane, ClassSeat classSeat, SeatStatus status) {
+    public Seat(int seatNumber, Schedule schedule, ClassSeat classSeat, SeatStatus status) {
         this.seatNumber = seatNumber;
-        this.airplane = airplane;
+        this.schedule = schedule;
         this.classSeat = classSeat;
         this.status = status;
     }

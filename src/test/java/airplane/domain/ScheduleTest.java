@@ -21,7 +21,7 @@ public class ScheduleTest {
                 .name("항공사이름")
                 .build();
 
-        request = new ScheduleRequest("출발지", "도착지", LocalDate.of(2021, 3, 30), LocalDate.of(2021, 3, 31));
+        request = new ScheduleRequest("출발지", "도착지", LocalDate.of(2021, 3, 30), LocalDate.of(2021, 3, 31), 100);
         schedule = Schedule.createBuilder()
                 .scheduleRequest(request)
                 .build();
@@ -30,7 +30,7 @@ public class ScheduleTest {
     @Test
     void 스케줄_변경감지() {
         //given
-        ScheduleRequest updateRequest = new ScheduleRequest("출발지_변경", "도착지_변경", request.getArrivalTime(), LocalDate.of(2021, 4, 29));
+        ScheduleRequest updateRequest = new ScheduleRequest("출발지_변경", "도착지_변경", request.getArrivalTime(), LocalDate.of(2021, 4, 29), 100);
         Schedule updateSchedule = Schedule.createBuilder()
                 .scheduleRequest(updateRequest)
                 .build();

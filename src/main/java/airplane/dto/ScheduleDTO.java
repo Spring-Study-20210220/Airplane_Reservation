@@ -15,6 +15,7 @@ public class ScheduleDTO {
     private String departures;
     private LocalDate arrivalTime;
     private LocalDate departureTime;
+    private int capacity;
 
     public ScheduleDTO(Schedule schedule) {
         this.id = schedule.getId();
@@ -23,5 +24,6 @@ public class ScheduleDTO {
         this.departures = schedule.getDepartures();
         this.arrivalTime = schedule.getArrivalTime();
         this.departureTime = schedule.getDepartureTime();
+        this.capacity = schedule.getAirplane().getCapacity();
     }
 }

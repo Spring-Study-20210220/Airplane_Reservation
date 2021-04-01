@@ -31,7 +31,7 @@ public class User {
     @ColumnDefault("0")
     private int mileage;
 
-    @OneToMany(mappedBy = "User")
+    @OneToMany(mappedBy = "user")
     private List<Reservation> reservationList = new ArrayList<>();
 
     @Builder(builderMethodName = "defaultBuilder", builderClassName = "defaultBuilder")

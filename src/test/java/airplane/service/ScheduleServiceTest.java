@@ -43,7 +43,7 @@ public class ScheduleServiceTest {
                 .name("항공사이름")
                 .build();
 
-        ScheduleRequest scheduleRequest = new ScheduleRequest("출발지", "도착지", LocalDate.of(2021, 3, 30), LocalDate.of(2021, 3, 31));
+        ScheduleRequest scheduleRequest = new ScheduleRequest("출발지", "도착지", LocalDate.of(2021, 3, 30), LocalDate.of(2021, 3, 31), 100);
 
         schedule = Schedule.createBuilder()
                 .scheduleRequest(scheduleRequest)
@@ -68,7 +68,7 @@ public class ScheduleServiceTest {
         //given
         given(scheduleRepository.findById(any())).willReturn(Optional.of(schedule));
 
-        ScheduleRequest updateScheduleRequest = new ScheduleRequest(schedule.getArrivals(), schedule.getDepartures(), LocalDate.of(2021, 4, 29), LocalDate.of(2021, 4, 30));
+        ScheduleRequest updateScheduleRequest = new ScheduleRequest(schedule.getArrivals(), schedule.getDepartures(), LocalDate.of(2021, 4, 29), LocalDate.of(2021, 4, 30), 100);
         Schedule updateSchedule = Schedule.createBuilder()
                 .scheduleRequest(updateScheduleRequest)
                 .build();

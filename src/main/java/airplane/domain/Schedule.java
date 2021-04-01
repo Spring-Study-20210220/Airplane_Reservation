@@ -19,6 +19,9 @@ public class Schedule {
     @ManyToOne(fetch = FetchType.LAZY)
     private Airline airline;
 
+    @Embedded
+    private Airplane airplane;
+
     @Column(nullable = false)
     private String arrivals;
 
@@ -44,6 +47,7 @@ public class Schedule {
         this.departures = scheduleRequest.getDepartures();
         this.arrivalTime = scheduleRequest.getArrivalTime();
         this.departureTime = scheduleRequest.getDepartureTime();
+        this.airplane = new Airplane(scheduleRequest.getCapacity());
     }
 
     @Builder(builderClassName = "defaultBuilder", builderMethodName = "defaultBuilder")
@@ -53,6 +57,7 @@ public class Schedule {
         this.departures = schedule.departures;
         this.arrivalTime = schedule.arrivalTime;
         this.departureTime = schedule.departureTime;
+        this.airplane = new Airplane(schedule.getAirplane().getCapacity());
     }
 
 

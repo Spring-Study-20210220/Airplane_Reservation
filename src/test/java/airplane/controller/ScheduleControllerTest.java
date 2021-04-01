@@ -35,7 +35,7 @@ public class ScheduleControllerTest {
 
     @BeforeAll
     static void setUp() {
-        request = new ScheduleRequest("출발지", "도착지", LocalDate.of(2021, 3, 30), LocalDate.of(2021, 3, 31));
+        request = new ScheduleRequest("출발지", "도착지", LocalDate.of(2021, 3, 30), LocalDate.of(2021, 3, 31), 100);
         entity = new HttpEntity<>(request);
     }
 
