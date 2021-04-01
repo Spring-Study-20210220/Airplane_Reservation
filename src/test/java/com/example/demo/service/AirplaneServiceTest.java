@@ -3,7 +3,9 @@ package com.example.demo.service;
 import com.example.demo.airplain.*;
 import com.example.demo.airplain.dto.AirplaneDto;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -13,6 +15,7 @@ import org.springframework.boot.test.context.TestComponent;
 import java.time.LocalDateTime;
 
 @ExtendWith(MockitoExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AirplaneServiceTest {
 
     private static final String TEST_AIRPLANE_NAME = "testName";
@@ -45,6 +48,7 @@ public class AirplaneServiceTest {
     }
 
     @Test
+    @Disabled
     void 항공기생성_정상() {
 
     }

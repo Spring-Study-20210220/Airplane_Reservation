@@ -6,6 +6,7 @@ import com.example.demo.airplain.Place;
 import com.example.demo.airplain.dto.AirplaneDto;
 import com.example.demo.user.dto.AuthDto;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
