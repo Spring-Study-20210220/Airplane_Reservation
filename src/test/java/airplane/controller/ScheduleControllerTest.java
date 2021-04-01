@@ -1,6 +1,7 @@
 package airplane.controller;
 
 import airplane.domain.Schedule;
+import airplane.dto.ScheduleDTO;
 import airplane.dto.ScheduleRequest;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class ScheduleControllerTest {
         uriVariable.put("airline_id", airlineId);
 
         //when
-        ResponseEntity<Schedule> result = testRestTemplate.postForEntity(saveUri, entity, Schedule.class, uriVariable);
+        ResponseEntity<ScheduleDTO> result = testRestTemplate.postForEntity(saveUri, entity, ScheduleDTO.class, uriVariable);
 
         //then
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.CREATED);
