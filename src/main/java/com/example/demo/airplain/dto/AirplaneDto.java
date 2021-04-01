@@ -1,21 +1,20 @@
 package com.example.demo.airplain.dto;
 
-import com.example.demo.airplain.Airplain;
+import com.example.demo.airplain.Airplane;
 import com.example.demo.airplain.AirplaneType;
 import com.example.demo.airplain.Place;
-import com.example.demo.airplain.seat.Seat;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class AirplaneDto {
 
     @Getter
     public static class Request {
+        @Length(min = 5,max = 30)
         private String name;
         private LocalDateTime takeOffTime;
         private LocalDateTime landingTime;
@@ -36,8 +35,8 @@ public class AirplaneDto {
             this.airplaneType = airplaneType;
         }
 
-        public Airplain toEntity() {
-            return Airplain.builder()
+        public Airplane toEntity() {
+            return Airplane.builder()
                     .name(name)
                     .takeOffTime(takeOffTime)
                     .landingTime(landingTime)

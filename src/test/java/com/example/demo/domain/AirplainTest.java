@@ -1,21 +1,15 @@
 package com.example.demo.domain;
 
-import com.example.demo.airplain.Airplain;
-import com.example.demo.airplain.AirplainRepository;
+import com.example.demo.airplain.Airplane;
 import com.example.demo.airplain.AirplaneType;
 import com.example.demo.airplain.Place;
 
 import com.example.demo.airplain.seat.SeatClass;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,7 +24,7 @@ public class AirplainTest {
 
     @Test
     void 항공기생성() {
-        Airplain airplain = Airplain.builder()
+        Airplane airplain = Airplane.builder()
                 .name(TEST_AIRPLANE_NAME)
                 .takeOffTime(TEST_TAKEOFFTIME_NAME)
                 .landingTime(TEST_LANDINGTIME_NAME)

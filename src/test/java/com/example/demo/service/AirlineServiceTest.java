@@ -7,6 +7,7 @@ import com.example.demo.airline.AirlineRepository;
 import com.example.demo.airline.AirlineService;
 import com.example.demo.airline.dto.AirlineDto;
 import com.example.demo.user.AdminAuthorizeService;
+import com.example.demo.user.AdminRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -41,7 +42,6 @@ public class AirlineServiceTest {
     private AirlineRepository airlineRepository;
     @Mock
     private AdminAuthorizeService adminAuthorizeService;
-
     private static Airline airline;
     private static AirlineDto.Request reqDto;
 
@@ -60,7 +60,7 @@ public class AirlineServiceTest {
     @Test
     void 항공사생성_정상() {
         given(airlineRepository.save(any())).willReturn(airline);
-        given(adminAuthorizeService.authorize(any())).willReturn(true);
+        //given(adminAuthorizeService.authorize(any())).willReturn(true);
         given(airlineRepository.findByName(any())).willReturn(Optional.empty());
 
         AirlineDto.Response resDto = airlineService.airlineCreate(reqDto,TEST_ADMIN_ID);
@@ -72,7 +72,7 @@ public class AirlineServiceTest {
     @Test
     void 항공사중복생성() {
         given(airlineRepository.findByName(any())).willReturn(Optional.of(airline));
-        given(adminAuthorizeService.authorize(any())).willReturn(true);
+        //given(adminAuthorizeService.authorize(any())).willReturn(true);
         Assertions.assertThatThrownBy(
                 ()->airlineService.airlineCreate(reqDto,TEST_ADMIN_ID)
         ).isInstanceOf(AirlineNameDuplicationException.class);
@@ -80,7 +80,9 @@ public class AirlineServiceTest {
 
     @Test
     void 권한없음() {
-        given(adminAuthorizeService.authorize(any())).willReturn(false);
+        //given(adminAuthorizeService.authorize(any())).willReturn(false);
+        doThrow(UnAuthorizedUserException.class).when(adminAuthorizeService).authorize(any());
+
         Assertions.assertThatThrownBy(
                 ()->airlineService.airlineCreate(reqDto,TEST_ADMIN_ID)
         ).isInstanceOf(UnAuthorizedUserException.class);
@@ -89,7 +91,7 @@ public class AirlineServiceTest {
     @Test
     void 항공사삭제_정상() {
         given(airlineRepository.findById(any())).willReturn(Optional.of(airline));
-        given(adminAuthorizeService.authorize(any())).willReturn(true);
+        //given(adminAuthorizeService.authorize(any())).willReturn(true);
 
         airlineService.airlineDelete(TEST_AIRLINE_ID,TEST_ADMIN_ID);
 
@@ -107,7 +109,7 @@ public class AirlineServiceTest {
                 .country("updateCountry")
                 .build();
         given(airlineRepository.findById(any())).willReturn(Optional.of(testAirline));
-        given(adminAuthorizeService.authorize(any())).willReturn(true);
+        //given(adminAuthorizeService.authorize(any())).willReturn(true);
 
         AirlineDto.Response resDto = airlineService.airlineUpdate(TEST_AIRLINE_ID,updateReqDto,TEST_ADMIN_ID);
 
@@ -118,7 +120,7 @@ public class AirlineServiceTest {
     @Test
     void 항공사조회_정상() {
         given(airlineRepository.findById(any())).willReturn(Optional.of(airline));
-        given(adminAuthorizeService.authorize(any())).willReturn(true);
+        //given(adminAuthorizeService.authorize(any())).willReturn(true);
 
         AirlineDto.Response resDto = airlineService.airlineFind(TEST_AIRLINE_ID,TEST_ADMIN_ID);
 

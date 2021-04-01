@@ -1,5 +1,6 @@
 package com.example.demo.airplain;
 
+import com.example.demo.airline.Airline;
 import com.example.demo.airplain.dto.AirplaneDto;
 import com.example.demo.airplain.seat.Seat;
 import com.example.demo.airplain.seat.SeatClass;
@@ -17,7 +18,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Airplain {
+public class Airplane {
 
     @Id
     @GeneratedValue
@@ -37,8 +38,12 @@ public class Airplain {
     @OneToMany(mappedBy = "airplain")
     private Set<Seat> seats = new HashSet<Seat>();
 
+    @JoinColumn(name = "AIRLINE_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Airline airline;
+
     @Builder
-    Airplain(String name, LocalDateTime takeOffTime, LocalDateTime landingTime,
+    Airplane(String name, LocalDateTime takeOffTime, LocalDateTime landingTime,
              Place takeOff, Place landing, AirplaneType airplaneType) {
         this.name = name;
         this.takeOffTime = takeOffTime;

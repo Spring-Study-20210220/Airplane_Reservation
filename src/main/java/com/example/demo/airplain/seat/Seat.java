@@ -1,6 +1,6 @@
 package com.example.demo.airplain.seat;
 
-import com.example.demo.airplain.Airplain;
+import com.example.demo.airplain.Airplane;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,7 +28,7 @@ public class Seat {
 
     @JoinColumn(name = "AIRPLAIN_ID")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Airplain airplain;
+    private Airplane airplain;
 
     @Builder
     Seat(SeatClass seatClass, SeatInfo seatInfo) {
@@ -36,7 +36,7 @@ public class Seat {
         this.seatInfo = seatInfo;
     }
 
-    public void registerAirplain(Airplain airplain){
+    public void registerAirplain(Airplane airplain){
         this.airplain=airplain;
     }
 

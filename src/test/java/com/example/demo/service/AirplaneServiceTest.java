@@ -1,22 +1,37 @@
 package com.example.demo.service;
 
+import com.example.demo.airline.Airline;
+import com.example.demo.airline.AirlineService;
 import com.example.demo.airplain.*;
 import com.example.demo.airplain.dto.AirplaneDto;
+import com.example.demo.user.AdminAuthorizeService;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.TestComponent;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AirplaneServiceTest {
+    private static final String TEST_AIRLINE_NAME = "testName";
+    private static final String TEST_AIRLINE_COUNTRY = "testCountry";
+    private static final Long TEST_AIRLINE_ID = 1L;
+    private static final String TEST_ADMIN_ID = "1";
 
     private static final String TEST_AIRPLANE_NAME = "testName";
     private static final LocalDateTime TEST_TAKEOFFTIME_NAME = LocalDateTime.of(2021,3,26,12,0);
@@ -26,12 +41,17 @@ public class AirplaneServiceTest {
     private static final AirplaneType TEST_TYPE = AirplaneType.A220;
 
     @InjectMocks
-    private AirplainService airplainService;
+    private AirplaneService airplaneService;
     @Mock
-    private AirplainRepository airplainRepository;
+    private AirplaneRepository airplaneRepository;
+    @Mock
+    private AirlineService airlineService;
+    @Mock
+    private AdminAuthorizeService adminAuthorizeService;
 
 
-    private static Airplain airplain;
+    private static Airplane airplane;
+    private static Airline airline;
     private static AirplaneDto.Request reqDto;
 
 
@@ -45,12 +65,27 @@ public class AirplaneServiceTest {
                 .landing(TEST_LANDING)
                 .airplaneType(TEST_TYPE)
                 .build();
+        airline = Airline.builder()
+                .name(TEST_AIRLINE_NAME)
+                .country(TEST_AIRLINE_COUNTRY)
+                .build();
     }
 
     @Test
-    @Disabled
     void 항공기생성_정상() {
 
+        // 항공사 id & Authorization id > 항공기 생성
+        // reqDto -> 항공기 생성, 항공사 id를 통한 항공사와 항공기간 연관관계 맺어줌
+        //given(airlineService.findById(any()))
+        given(airplaneRepository.findByName(any())).willReturn(Optional.empty());
+        given(airplaneRepository.save(any())).willReturn(reqDto.toEntity());
+        given(airlineService.findById(any())).willReturn(airline);
+
+        AirplaneDto.Response resDto = airplaneService.airplaneCreate(1L,reqDto,"1");
+
+        assertThat(resDto.getName()).isEqualTo(reqDto.getName());
+        verify(airplaneRepository, times(1)).findByName(any());
+        verify(airplaneRepository, times(1)).save(any());
     }
 
 }

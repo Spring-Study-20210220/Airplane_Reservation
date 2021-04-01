@@ -16,8 +16,8 @@ public enum ErrorCode {
     DUPLICATED_ENTITY(BAD_REQUEST,"C005", "중복된 엔티티입니다"),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "C006", "Server Error"),
 
-    MEMBER_NOT_EXIST(BAD_REQUEST,"U002","존재하지 않는 사용자입니다."),
-    ADMIN_NOT_EXIST(BAD_REQUEST,"U003","존재하지 않는 관리자입니다.");
+    ADMIN_NOT_EXIST(BAD_REQUEST,"U001","존재하지 않는 관리자입니다."),
+    MEMBER_NOT_EXIST(BAD_REQUEST,"U002","존재하지 않는 사용자입니다.");
 
     private final String code;
     private final String message;

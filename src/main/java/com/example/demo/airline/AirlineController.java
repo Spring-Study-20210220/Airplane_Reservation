@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -13,7 +15,7 @@ public class AirlineController {
     private final AirlineService airlineService;
 
     @PostMapping("/Airline")
-    ResponseEntity<AirlineDto.Response> register(@RequestBody AirlineDto.Request reqDto
+    ResponseEntity<AirlineDto.Response> register(@Valid @RequestBody AirlineDto.Request reqDto
             , @RequestHeader(value = "Authorization") String authorization) {
         AirlineDto.Response resDto = airlineService.airlineCreate(reqDto, authorization);
         return ResponseEntity
@@ -31,7 +33,7 @@ public class AirlineController {
     }
 
     @PatchMapping("/Airline/{AirlineID}")
-    ResponseEntity<AirlineDto.Response> update(@RequestBody AirlineDto.Request reqDto,
+    ResponseEntity<AirlineDto.Response> update(@Valid @RequestBody AirlineDto.Request reqDto,
            @PathVariable("AirlineID") Long AirlineID, @RequestHeader(value = "Authorization") String authorization) {
         AirlineDto.Response resDto = airlineService.airlineUpdate(AirlineID, reqDto, authorization);
         return ResponseEntity
