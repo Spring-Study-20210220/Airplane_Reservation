@@ -4,6 +4,7 @@ import com.example.demo.airplain.Airplain;
 import com.example.demo.airplain.AirplaneType;
 import com.example.demo.airplain.Place;
 import com.example.demo.airplain.seat.Seat;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,6 @@ import java.util.List;
 public class AirplaneDto {
 
     @Getter
-    @NoArgsConstructor()
     public static class Request {
         private String name;
         private LocalDateTime takeOffTime;
@@ -48,6 +48,7 @@ public class AirplaneDto {
         }
     }
 
+    @Getter
     public static class Response {
         private Long id;
         private String name;

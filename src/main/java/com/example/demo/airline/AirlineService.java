@@ -19,7 +19,7 @@ public class AirlineService {
 
     @Transactional
     public AirlineDto.Response airlineCreate(AirlineDto.Request reqDto, String authorization) {
-        authorizeAdmin(authorization);
+        adminAuthorizeService.authorize(authorization);
         duplicationCheck(reqDto);
         Airline airline = airlineRepository.save(reqDto.toEntity());
         return airline.toResponseDto();
@@ -27,29 +27,23 @@ public class AirlineService {
 
     @Transactional
     public void airlineDelete(Long id, String authorization) {
-        authorizeAdmin(authorization);
+        adminAuthorizeService.authorize(authorization);
         Airline airline = findById(id);
         airlineRepository.delete(airline);
     }
 
     @Transactional
     public AirlineDto.Response airlineUpdate(Long id, AirlineDto.Request reqDto, String authorization) {
-        authorizeAdmin(authorization);
+        adminAuthorizeService.authorize(authorization);
         Airline airline = findById(id);
         airline.update(reqDto.getName(), reqDto.getCountry());
         return airline.toResponseDto();
     }
 
     public AirlineDto.Response airlineFind(Long id, String authorization) {
-        authorizeAdmin(authorization);
+        adminAuthorizeService.authorize(authorization);
         Airline airline = findById(id);
         return airline.toResponseDto();
-    }
-
-    protected void authorizeAdmin(String Authorization) {
-        if (!adminAuthorizeService.authorize(Authorization)) {
-            throw new UnAuthorizedUserException();
-        }
     }
 
     private void duplicationCheck(AirlineDto.Request reqDto){
