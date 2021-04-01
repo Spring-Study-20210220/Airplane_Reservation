@@ -76,3 +76,8 @@ Booked UnBooked
 
 -> Mockito는 BeforeAll에서 초기화를 지원하지 않음 명시적 초기화가 필요
 
+
+
+![image](https://user-images.githubusercontent.com/71423156/113254324-61344d00-9301-11eb-8364-349bce6bde65.png)
+
+![image](https://user-images.githubusercontent.com/71423156/113254395-790bd100-9301-11eb-9a6e-69bce6cf1d1c.png)
