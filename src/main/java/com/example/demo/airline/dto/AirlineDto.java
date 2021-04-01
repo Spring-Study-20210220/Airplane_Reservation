@@ -12,7 +12,7 @@ public class AirlineDto {
     @Getter
     @NoArgsConstructor()
     public static class Request {
-        @Length(min = 2, max = 10)
+        @Length(min = 2, max = 20)
         private String name;
         @Length(min = 2, max = 20)
         private String country;

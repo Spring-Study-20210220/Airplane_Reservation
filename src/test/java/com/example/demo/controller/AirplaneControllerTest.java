@@ -81,7 +81,7 @@ public class AirplaneControllerTest {
     @Test
     void 항공기생성(){
         AirplaneDto.Request reqDto = AirplaneDto.Request.builder()
-                //.name("a")
+                .name(TEST_AIRPLAIN_NAME)
                 .landing(Place.JAPAN)
                 .landingTime(testLandingTime)
                 .takeOff(Place.SOUTH_KOREA)

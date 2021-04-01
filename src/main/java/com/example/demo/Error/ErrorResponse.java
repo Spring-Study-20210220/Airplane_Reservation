@@ -35,6 +35,13 @@ public class ErrorResponse {
         this.errors = new ArrayList<>();
     }
 
+    private ErrorResponse(final ErrorCode code, Exception e){
+        this.message = e.getMessage();
+        this.status = code.getStatus();
+        this.code = code.getCode();
+        this.errors = new ArrayList<>();
+    }
+
 
     public static ErrorResponse of(final ErrorCode code, final BindingResult bindingResult) {
         return new ErrorResponse(code, FieldError.of(bindingResult));
@@ -42,6 +49,10 @@ public class ErrorResponse {
 
     public static ErrorResponse of(final ErrorCode code) {
         return new ErrorResponse(code);
+    }
+
+    public static ErrorResponse of(final ErrorCode code, Exception e){
+        return new ErrorResponse(code,e);
     }
 
     public static ErrorResponse of(final ErrorCode code, final List<FieldError> errors) {

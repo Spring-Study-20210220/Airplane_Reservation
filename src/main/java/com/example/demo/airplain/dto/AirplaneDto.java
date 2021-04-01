@@ -3,8 +3,10 @@ package com.example.demo.airplain.dto;
 import com.example.demo.airplain.Airplane;
 import com.example.demo.airplain.AirplaneType;
 import com.example.demo.airplain.Place;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Size;
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
 public class AirplaneDto {
 
     @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Request {
         @Length(min = 5,max = 30)
         private String name;
@@ -48,6 +51,7 @@ public class AirplaneDto {
     }
 
     @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Response {
         private Long id;
         private String name;

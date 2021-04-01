@@ -108,7 +108,7 @@ public class AirlineControllerTest {
     void 항공사중복생성(){
         //given
         AirlineDto.Request airlineReqDto = AirlineDto.Request.builder()
-                .name(TEST_AIRLINE_NAME)
+                .name("DuplicatedName")
                 .country(TEST_AIRLINE_COUNTRY)
                 .build();
         //when
