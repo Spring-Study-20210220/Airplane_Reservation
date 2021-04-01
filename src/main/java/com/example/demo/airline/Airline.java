@@ -1,6 +1,7 @@
 package com.example.demo.airline;
 
 import com.example.demo.airline.dto.AirlineDto;
+import com.example.demo.airplain.Airplane;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +22,14 @@ public class Airline {
     private String name;
     @Column(nullable = false)
     private String country;
+
+    @OneToMany(mappedBy = "airline")
+    private Set<Airplane> airplains = new HashSet<Airplane>();
+
+    public void registerAirplain(Airplane airplain){
+        airplains.add(airplain);
+        Airline airline = this;
+    }
 
     @Builder
     Airline(String name, String country) {

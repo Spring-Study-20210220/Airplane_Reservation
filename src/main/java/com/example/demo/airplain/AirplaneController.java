@@ -16,10 +16,14 @@ import javax.validation.Valid;
 public class AirplaneController {
     private final AirplaneService airplaneService;
 
-    @PostMapping("/Airplane")
-    ResponseEntity<AirplaneDto.Response> register(@RequestBody AirplaneDto.Request reqDto
+    @PostMapping("/Airline/{AirlineID}/Airplane")
+    ResponseEntity<AirplaneDto.Response> register(@Valid @RequestBody AirplaneDto.Request reqDto
+            , @PathVariable("AirlineID") Long airlineID
             , @RequestHeader(value = "Authorization") String authorization) {
-        AirlineDto.Response resDto = airplainService.airplaneCreate(reqDto, authorization);
+
+        log.info("before");
+        AirplaneDto.Response resDto = airplaneService.airplaneCreate(airlineID, reqDto, authorization);
+        log.info("after");
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
