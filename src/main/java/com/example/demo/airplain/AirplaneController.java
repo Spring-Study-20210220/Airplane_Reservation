@@ -21,9 +21,7 @@ public class AirplaneController {
             , @PathVariable("AirlineID") Long airlineID
             , @RequestHeader(value = "Authorization") String authorization) {
 
-        log.info("before");
         AirplaneDto.Response resDto = airplaneService.airplaneCreate(airlineID, reqDto, authorization);
-        log.info("after");
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

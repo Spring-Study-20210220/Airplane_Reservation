@@ -5,6 +5,7 @@ import com.example.demo.airplain.dto.AirplaneDto;
 import com.example.demo.airplain.seat.Seat;
 import com.example.demo.airplain.seat.SeatClass;
 import com.example.demo.airplain.seat.SeatInfo;
+import com.example.demo.util.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Airplane {
+public class Airplane extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -43,8 +44,9 @@ public class Airplane {
     private Airline airline;
 
     @Builder
-    Airplane(String name, LocalDateTime takeOffTime, LocalDateTime landingTime,
+    Airplane(Long id, String name, LocalDateTime takeOffTime, LocalDateTime landingTime,
              Place takeOff, Place landing, AirplaneType airplaneType) {
+        this.id = id;
         this.name = name;
         this.takeOffTime = takeOffTime;
         this.takeOff = takeOff;
@@ -52,6 +54,10 @@ public class Airplane {
         this.landing = landing;
         this.airplaneType = airplaneType;
         generateSeatRows();
+    }
+
+    public void registerAirline(Airline airline){
+        this.airline=airline;
     }
 
     AirplaneDto.Response toResponseDto() {
@@ -63,6 +69,7 @@ public class Airplane {
                 .landing(landing)
                 .landingTime(landingTime)
                 .airplaneType(airplaneType)
+                .airline(airline.toResponseDto())
                 .build();
     }
 

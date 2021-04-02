@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Length;
 public class AirlineDto {
 
     @Getter
-    @NoArgsConstructor()
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Request {
         @Length(min = 2, max = 20)
         private String name;
@@ -32,7 +32,7 @@ public class AirlineDto {
     }
 
     @Getter
-    @NoArgsConstructor()
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Response {
         private Long id;
         private String name;

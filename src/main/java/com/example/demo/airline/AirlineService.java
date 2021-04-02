@@ -40,7 +40,6 @@ public class AirlineService {
         return airline.toResponseDto();
     }
 
-    @Transactional
     public AirlineDto.Response airlineFind(Long id, String authorization) {
         adminAuthorizeService.authorize(authorization);
         Airline airline = findById(id);
