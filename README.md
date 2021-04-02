@@ -55,7 +55,9 @@ Booked UnBooked
 
 ## ERD
 
-![img_6.png](img/img_6.png)
+![img.png](img/erd.png)  
+
+>[erdCloud](https://www.erdcloud.com/d/k2qkevsg36dqj7F3u)
 
 
 # 트러블 슈팅
@@ -69,8 +71,8 @@ Booked UnBooked
 ### 서비스 유닛테스트 도중 초기화부분에서 NullPointerException이 발생
 ![img_3.png](img/img_3.png)
 ![img_2.png](img/img_2.png)
->Mockito는 BeforeAll에서 초기화를 지원하지 않기 때문에 명시적 초기화가 필요하다.
-![img_4.png](img/img_4.png)
+>Mockito는 BeforeAll에서 초기화를 지원하지 않기 때문에 명시적 초기화가 필요하다.  
+![img_4.png](img/img_4.png)  
 ![img_5.png](img/img_5.png)
 ---
 ### H2 DDL-AUTO 전략으로 테이블 생성시 오류
