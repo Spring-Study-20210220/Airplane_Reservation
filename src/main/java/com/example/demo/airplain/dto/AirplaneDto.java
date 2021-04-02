@@ -1,5 +1,7 @@
 package com.example.demo.airplain.dto;
 
+import com.example.demo.airline.Airline;
+import com.example.demo.airline.dto.AirlineDto;
 import com.example.demo.airplain.Airplane;
 import com.example.demo.airplain.AirplaneType;
 import com.example.demo.airplain.Place;
@@ -63,9 +65,12 @@ public class AirplaneDto {
         private Place landing;
 
         private AirplaneType airplaneType;
+
+        private AirlineDto.Response airline;
+
         @Builder
         Response(Long id, String name, LocalDateTime takeOffTime, LocalDateTime landingTime,
-                 Place takeOff, Place landing, AirplaneType airplaneType) {
+                 Place takeOff, Place landing, AirplaneType airplaneType, AirlineDto.Response airline) {
             this.id=id;
             this.name = name;
             this.takeOffTime = takeOffTime;
@@ -73,6 +78,7 @@ public class AirplaneDto {
             this.landingTime = landingTime;
             this.landing = landing;
             this.airplaneType = airplaneType;
+            this.airline = airline;
         }
     }
 
