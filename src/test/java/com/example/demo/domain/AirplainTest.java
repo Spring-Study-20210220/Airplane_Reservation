@@ -44,4 +44,6 @@ public class AirplainTest {
                 .map(seat->seat.getSeatClass()).collect(Collectors.toList())
         ).containsAll(Collections.nCopies(95,SeatClass.ECONOMY));
     }
+
+
 }

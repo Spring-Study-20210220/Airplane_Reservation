@@ -28,5 +28,17 @@ public class AirplaneController {
                 .body(resDto);
     }
 
+    @GetMapping("/Airline/{AirlineID}/Airplane/{testAirplaneID}")
+    ResponseEntity<AirplaneDto.Response> find(@PathVariable("AirlineID") Long airlineID
+            , @PathVariable("testAirplaneID") Long airplaneID
+            , @RequestHeader(value = "Authorization") String authorization) {
+
+        AirplaneDto.Response resDto = airplaneService.airplaneFind(airlineID, airplaneID, authorization);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(resDto);
+    }
+
 
 }

@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.airline.Airline;
 import com.example.demo.airline.dto.AirlineDto;
+import com.example.demo.airplain.Airplane;
 import com.example.demo.airplain.AirplaneType;
 import com.example.demo.airplain.Place;
 import com.example.demo.airplain.dto.AirplaneDto;
@@ -36,19 +38,30 @@ public class AirplaneControllerTest {
     private static final String TEST_AIRLINE_NAME = "testAirlineName2";
     private static final String TEST_AIRLINE_COUNTRY = "testAirlineCountry";
 
+    private static final String TEST_AIRPLANE_NAME = "testName";
+    private static final LocalDateTime TEST_TAKEOFFTIME_NAME = LocalDateTime.of(2021,3,26,12,0);
+    private static final LocalDateTime TEST_LANDINGTIME_NAME = LocalDateTime.of(2021,3,27,12,0);
+    private static final Place TEST_TAKEOFF = Place.CANADA;
+    private static final Place TEST_LANDING = Place.RUSSIA;
+    private static final AirplaneType TEST_TYPE = AirplaneType.A220;
+
+
+
     @Autowired
     private WebTestClient webTestClient;
 
     private Long testAdminId;
     private Long testAirlineId;
+    private Long testAirplaneId;
 
-    @BeforeEach
+    @BeforeAll
     void setup(){
         AuthDto.Request authReqDto = AuthDto.Request.builder()
                 .login_id(TEST_AUTH_LOGIN_ID)
                 .name(TEST_AUTH_NAME)
                 .password(TEST_AUTH_PASSWORD)
                 .build();
+
         AuthDto.Response adminResDto = webTestClient.post()
                 .uri("/api/Auth/SignUp/Admin")
                 .body(Mono.just(authReqDto), AuthDto.Request.class)

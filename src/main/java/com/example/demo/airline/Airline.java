@@ -27,8 +27,8 @@ public class Airline {
     @Column(nullable = false)
     private String country;
 
-    @OneToMany(mappedBy = "airline")
-    private Set<Airplane> airplains = new HashSet<Airplane>();
+    @OneToMany(mappedBy = "airline", fetch = FetchType.LAZY)
+    private Set<Airplane> airplanes = new HashSet<Airplane>();
 
     public void registerAirplane(Airplane airplane) {
         airplanes.add(airplane);
