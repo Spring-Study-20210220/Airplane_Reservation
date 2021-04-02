@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureWebTestClient
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AirplaneControllerTest {
     private static final String TEST_AIRPLAIN_NAME="testAirplaneName";
@@ -32,7 +33,7 @@ public class AirplaneControllerTest {
     private static final String TEST_AUTH_NAME = "testerName";
     private static final String TEST_AUTH_PASSWORD = "testerPW";
 
-    private static final String TEST_AIRLINE_NAME = "testAirlineName";
+    private static final String TEST_AIRLINE_NAME = "testAirlineName2";
     private static final String TEST_AIRLINE_COUNTRY = "testAirlineCountry";
 
     @Autowired
@@ -100,7 +101,45 @@ public class AirplaneControllerTest {
                 .getResponseBody();
 
         assertThat(resDto.getName()).isEqualTo(reqDto.getName());
+        assertThat(resDto.getAirline().getName()).isEqualTo(TEST_AIRLINE_NAME);
         assertThat(resDto.getAirplaneType()).isEqualTo(reqDto.getAirplaneType());
+    }
+
+    @Test
+    void 항공기조회() {
+
+        AirplaneDto.Request reqDto = AirplaneDto.Request.builder()
+                .name(TEST_AIRPLAIN_NAME+String.valueOf(2))
+                .landing(Place.JAPAN)
+                .landingTime(testLandingTime)
+                .takeOff(Place.SOUTH_KOREA)
+                .takeOffTime(testTakeOffTime)
+                .airplaneType(AirplaneType.A220)
+                .build();
+
+        AirplaneDto.Response resDto = webTestClient.post()
+                .uri("/api/Airline/"+testAirlineId+"/Airplane")
+                .header("Authorization", String.valueOf(testAdminId))
+                .body(Mono.just(reqDto), AirplaneDto.Request.class)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody(AirplaneDto.Response.class)
+                .returnResult()
+                .getResponseBody();
+
+        testAirplaneId = resDto.getId();
+
+        AirplaneDto.Response resDto2 = webTestClient.get()
+                .uri("/api/Airline/"+testAirlineId+"/Airplane/"+testAirplaneId)
+                .header("Authorization", String.valueOf(testAdminId))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(AirplaneDto.Response.class)
+                .returnResult()
+                .getResponseBody();
+
+        assertThat(resDto2.getName()).isEqualTo(TEST_AIRPLAIN_NAME);
+
     }
 
 

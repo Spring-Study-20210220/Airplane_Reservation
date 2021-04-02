@@ -1,6 +1,7 @@
 package com.example.demo.airplain;
 
 import com.example.demo.Error.Exception.AirplaneNameDuplicationException;
+import com.example.demo.Error.Exception.AirplaneNotFoundException;
 import com.example.demo.airline.Airline;
 import com.example.demo.airline.AirlineService;
 import com.example.demo.airplain.dto.AirplaneDto;
@@ -20,17 +21,12 @@ public class AirplaneService {
     private final AdminAuthorizeService adminAuthorizeService;
 
     public AirplaneDto.Response airplaneCreate(Long airlineID, AirplaneDto.Request reqDto, String authorization) {
-        log.info("beforeAuth");
         adminAuthorizeService.authorize(authorization);
-        log.info("before dup ck");
         duplicationCheck(reqDto);
-        log.info("before findbyid");
 
         Airline airline = airlineService.findById(airlineID);
-        log.info("before save");
         Airplane airplane = airplaneRepository.save(reqDto.toEntity());
-        log.info("before register");
-        airline.registerAirplain(airplane);
+        airline.registerAirplane(airplane);
 
         return airplane.toResponseDto();
     }
@@ -43,4 +39,17 @@ public class AirplaneService {
         }
     }
 
+    public AirplaneDto.Response airplaneFind(Long airlineID, Long airplaneID, String authorization) {
+        adminAuthorizeService.authorize(authorization);
+        Airline airline = airlineService.findById(airlineID);
+        Airplane airplane = airline.findAirplaneById(airplaneID);
+
+        return airplane.toResponseDto();
+    }
+
+    public Airplane findById(Long airplaneID){
+        return airplaneRepository.findById(airplaneID).orElseThrow(
+                () -> new AirplaneNotFoundException()
+        );
+    }
 }

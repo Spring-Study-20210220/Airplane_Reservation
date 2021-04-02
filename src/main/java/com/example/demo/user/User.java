@@ -2,6 +2,7 @@ package com.example.demo.user;
 
 
 import com.example.demo.user.dto.AuthDto;
+import com.example.demo.util.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class User {
+public abstract class User extends BaseTimeEntity {
     @Id
     @GeneratedValue
     protected Long id;

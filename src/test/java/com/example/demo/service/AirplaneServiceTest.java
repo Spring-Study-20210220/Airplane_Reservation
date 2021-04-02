@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.airline.Airline;
 import com.example.demo.airline.AirlineService;
+import com.example.demo.airline.dto.AirlineDto;
 import com.example.demo.airplain.*;
 import com.example.demo.airplain.dto.AirplaneDto;
 import com.example.demo.user.AdminAuthorizeService;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
@@ -48,12 +50,10 @@ public class AirplaneServiceTest {
     private AirlineService airlineService;
     @Mock
     private AdminAuthorizeService adminAuthorizeService;
+    @Spy
+    private Airline mockAirline;
 
-
-    private static Airplane airplane;
-    private static Airline airline;
     private static AirplaneDto.Request reqDto;
-
 
     @BeforeAll
     void setUp() {
@@ -65,15 +65,14 @@ public class AirplaneServiceTest {
                 .landing(TEST_LANDING)
                 .airplaneType(TEST_TYPE)
                 .build();
-        airline = Airline.builder()
-                .name(TEST_AIRLINE_NAME)
-                .country(TEST_AIRLINE_COUNTRY)
-                .build();
     }
 
     @Test
     void 항공기생성_정상() {
-
+        Airline airline = Airline.builder()
+                .name(TEST_AIRLINE_NAME)
+                .country(TEST_AIRLINE_COUNTRY)
+                .build();
         // 항공사 id & Authorization id > 항공기 생성
         // reqDto -> 항공기 생성, 항공사 id를 통한 항공사와 항공기간 연관관계 맺어줌
         //given(airlineService.findById(any()))
@@ -87,5 +86,15 @@ public class AirplaneServiceTest {
         verify(airplaneRepository, times(1)).findByName(any());
         verify(airplaneRepository, times(1)).save(any());
     }
+    @Test
+    void 항공기조회_정상(){
+        Airplane airplane = reqDto.toEntity();
+        //제공된 항공사 id & Authorization id & 항공기 id
+        given(airlineService.findById(any())).willReturn(mockAirline);
+        given(mockAirline.findAirplaneById(any() ) ).willReturn(airplane);
 
+        AirplaneDto.Response resDto = airplaneService.airplaneFind(1L,1L,"1");
+
+        assertThat(resDto.getName()).isEqualTo(airplane.getName());
+    }
 }
