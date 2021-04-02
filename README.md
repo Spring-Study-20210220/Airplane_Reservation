@@ -31,8 +31,8 @@
 > - OOP에 집중하고자 Database로의 접근은 ORM을 이용한 Spring JPA를, DB는 embedded H2를 사용
 >
 > - Unit test를 위해 Mock와 RestTemplate을 활용
-### Entity 분석
-![image](https://user-images.githubusercontent.com/59992230/112981593-63c66380-9196-11eb-8cfe-565995a716b0.png)
+### Entity 설계
+![image](https://user-images.githubusercontent.com/59992230/113433533-57523d00-941a-11eb-952e-311f713d2bad.png)
 
 ### API document
 **User**
@@ -47,6 +47,27 @@
 |항공사 등록|/api/airline/new|POST|
 |특정 항공사 조회|/api/airline/{id}|GET|
 |항공사 전체 조회|/api/airlines|GET|
+
+**Schedule**
+|Function|URL|Method|
+|--------|---|------|
+|항공편 등록|/api/{airline_id}/schedule/new|POST|
+|항공편 수정|/api/{schedule_id}/update|POST|
+|항공편 삭제|/api/{schedule_id}/delete/new|POST|
+|특정 항공사의 모든 항공편 조회|/api/{airline_id}/schedules|GET|
+
+**Reservation**
+|Function|URL|Method|
+|--------|---|------|
+|예약 등록|/api/reservation/new|POST|
+|예약 취소|/api/{reservation_id}/cancel|POST|
+
+**Payment**
+|Function|URL|Method|
+|--------|---|------|
+|결제하기|/api/payment/pay|POST|
+|결제 취소|/api/payment/{payment_id}/cancel|POST|
+
 
 ### ✍ issue
 - ``@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)`` 환경에서
@@ -90,3 +111,43 @@
 
   </details>
 
+- ``@Embeddedable``&``@Embedded``, Entity 내부 값을 의미화하기 (``Airplane``) [issue 링크](https://github.com/Spring-Study-20210220/Airplane_Reservation/issues/1)
+
+  <details>
+    <summary>자세히</summary>
+  
+  > ``Airplane``의 설계 의도는 두가지 의미가 담겨있다
+  > 1. 기내의 좌석이 총 몇 석 존재하는지 정보를 표현하기 위해
+  > 2. 각 좌석에 대한 예약 여부 조회 등등
+  > 
+  > 처음엔 해당 의미를 담은 객체를 Seat과 Schedule 사이에 Entity로 구성하였으나,
+  > Schedule과 OneToOne 관계이고, 그렇다고해서 Schedule 내부에 한번에 포함하기에는 역할을 분리시키고자
+  > 객체로 정의하고, Embedded로 내부 value를 저장하게끔 설정해두었다.
+
+  </details>
+
+- ``Enum`` with ``JPA`` (마일리지에 따른 유저등급 설정하기 ``UserGrade``)  
+  [Persisting-Enums-in-JPA](https://www.baeldung.com/jpa-persisting-enums-in-jpa) [Seri&Deserialize Enums with Jackson](https://www.baeldung.com/jackson-serialize-enums)
+
+  <details>
+    <summary>자세히</summary>
+
+  > 1. 유동적인 Enum
+  > 일반적인 Enum type의 경우엔 constant의 그룹으로 나타낸 클래스이다.  
+  > 그렇게 이용한 ``ClassSet``, ``PaymentStatus``, ``SeatStatus``를 볼 수 있다.  
+  > 유저 등급은 일반적인 상태 설정과는 달리, 마일리지가 변동될때마다 확인하도록 설계했다.  
+  > 매 순간마다 switch를 통해서, 마일리지 범위를 또 상수를 설정하고, 그 상수 범위 내에 들어가있을때 해당 등급이 되는지...  
+  > ❗ 결론적으로 이러한 로직을 번거롭게 짜는것 보다는 토비의 스프링 5장에서 언급된 enum field와 method를 사용했다.
+  > 
+  > 2. 등급의 의미?
+  > 그리고 **등급 자체**를 저장하기보다는 **등급을 구성하는 요소**를 저장하고, DB에서 꺼내올 때마다 요소를 통해 등급을 확인하는 것이 좀 더 올바르다고 여겨졌다.
+  > 그래서 ``@PostLoad`` 를 이용하여 영속성이 부여될때마다 매 등급을 계산하여 매기게 설정하였다.
+  > 
+  > 3. Client에게 전달
+  > 마지막으로 고민했던 부분은, Client에게 전달되는 값이었다.  
+  > ``UserDTO`` 에 ``UserGrade``을 그대로 반환하게 될 경우엔 내부 field값들 (boundary)을 반환해주는 것인가 걱정했지만,  
+  > [Jackson 문서](https://www.baeldung.com/jackson-serialize-enums) 를 통해 Enum의 기본 Mapping 정책은 ``simple String``으로 변환해주는 것임을 알게 되었다.  
+  > Client에게는 우리가 원하는 등급의 이름(GOLD, DIAMOND, ...)으로 반환되어 원하는 결과를 얻을 수 있었다.
+
+
+  </details>
