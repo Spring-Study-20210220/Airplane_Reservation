@@ -28,17 +28,19 @@ public class Airline {
     private String country;
 
     @OneToMany(mappedBy = "airline", fetch = FetchType.LAZY)
-    private Set<Airplane> airplanes = new HashSet<Airplane>();
-
-    public void registerAirplane(Airplane airplane) {
-        airplanes.add(airplane);
-        airplane.registerAirline(this);
-    }
+    private Set<Airplane> airplanes = new HashSet<>();
 
     @Builder
     Airline(String name, String country) {
         this.name = name;
         this.country = country;
+    }
+
+    public void registerAirplane(Airplane airplane){
+        if(airplane != null){
+            airplanes.add((airplane));
+        }
+        airplane.registerAirline(this);
     }
 
     public AirlineDto.Response toResponseDto() {
@@ -58,14 +60,14 @@ public class Airline {
         return airplanes.stream()
                 .filter(airplane -> airplane.getId().equals(airplaneID))
                 .findAny().orElseThrow(
-                        ()->new AirplaneNotFoundException()
+                        AirplaneNotFoundException::new
                 );
     }
     public Airplane findAirplaneByName(String airplaneName) {
         return airplanes.stream()
                 .filter(airplane -> airplane.getName().equals(airplaneName))
                 .findAny().orElseThrow(
-                        ()->new AirplaneNotFoundException()
+                        AirplaneNotFoundException::new
                 );
     }
 }

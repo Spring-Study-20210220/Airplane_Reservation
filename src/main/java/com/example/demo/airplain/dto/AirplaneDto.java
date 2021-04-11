@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -21,7 +22,9 @@ public class AirplaneDto {
     public static class Request {
         @Length(min = 5,max = 30)
         private String name;
+        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime takeOffTime;
+        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime landingTime;
 
         private Place takeOff;
@@ -57,8 +60,9 @@ public class AirplaneDto {
     public static class Response {
         private Long id;
         private String name;
-
+        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime takeOffTime;
+        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime landingTime;
 
         private Place takeOff;
@@ -79,6 +83,19 @@ public class AirplaneDto {
             this.landing = landing;
             this.airplaneType = airplaneType;
             this.airline = airline;
+        }
+
+        public static AirplaneDto.Response of(Airplane airplane,AirlineDto.Response airline){
+            return Response.builder()
+                    .id(airplane.getId())
+                    .name(airplane.getName())
+                    .takeOffTime(airplane.getTakeOffTime())
+                    .takeOff(airplane.getTakeOff())
+                    .landingTime(airplane.getLandingTime())
+                    .landing(airplane.getLanding())
+                    .airplaneType(airplane.getAirplaneType())
+                    .airline(airline)
+                    .build();
         }
     }
 

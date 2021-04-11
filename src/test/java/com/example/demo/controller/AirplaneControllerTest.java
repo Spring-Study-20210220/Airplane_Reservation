@@ -122,7 +122,7 @@ public class AirplaneControllerTest {
     void 항공기조회() {
 
         AirplaneDto.Request reqDto = AirplaneDto.Request.builder()
-                .name(TEST_AIRPLAIN_NAME+String.valueOf(2))
+                .name(TEST_AIRPLAIN_NAME+ 2)
                 .landing(Place.JAPAN)
                 .landingTime(testLandingTime)
                 .takeOff(Place.SOUTH_KOREA)
@@ -151,7 +151,7 @@ public class AirplaneControllerTest {
                 .returnResult()
                 .getResponseBody();
 
-        assertThat(resDto2.getName()).isEqualTo(TEST_AIRPLAIN_NAME);
+        assertThat(resDto2.getName()).isEqualTo(TEST_AIRPLAIN_NAME+ 2);
 
     }
 

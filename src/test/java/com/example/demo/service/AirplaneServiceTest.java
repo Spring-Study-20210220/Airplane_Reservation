@@ -7,10 +7,7 @@ import com.example.demo.airplain.*;
 import com.example.demo.airplain.dto.AirplaneDto;
 import com.example.demo.user.AdminAuthorizeService;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
@@ -28,7 +25,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AirplaneServiceTest {
     private static final String TEST_AIRLINE_NAME = "testName";
     private static final String TEST_AIRLINE_COUNTRY = "testCountry";
@@ -49,14 +45,30 @@ public class AirplaneServiceTest {
     @Mock
     private AirlineService airlineService;
     @Mock
-    private AdminAuthorizeService adminAuthorizeService;
-    @Spy
     private Airline mockAirline;
+    @Mock
+    private AdminAuthorizeService adminAuthorizeService;
 
-    private static AirplaneDto.Request reqDto;
 
-    @BeforeAll
+    private Airplane airplane;
+    private Airline airline;
+    private AirplaneDto.Request reqDto;
+
+    @BeforeEach
     void setUp() {
+        airline = Airline.builder()
+                .name(TEST_AIRLINE_NAME)
+                .country(TEST_AIRLINE_COUNTRY)
+                .build();
+        airplane = Airplane.builder()
+                .name(TEST_AIRPLANE_NAME)
+                .takeOffTime(TEST_TAKEOFFTIME_NAME)
+                .landingTime(TEST_LANDINGTIME_NAME)
+                .takeOff(TEST_TAKEOFF)
+                .landing(TEST_LANDING)
+                .airplaneType(TEST_TYPE)
+                .airline(airline)
+                .build();
         reqDto = AirplaneDto.Request.builder()
                 .name(TEST_AIRPLANE_NAME)
                 .takeOffTime(TEST_TAKEOFFTIME_NAME)
@@ -69,10 +81,6 @@ public class AirplaneServiceTest {
 
     @Test
     void 항공기생성_정상() {
-        Airline airline = Airline.builder()
-                .name(TEST_AIRLINE_NAME)
-                .country(TEST_AIRLINE_COUNTRY)
-                .build();
         // 항공사 id & Authorization id > 항공기 생성
         // reqDto -> 항공기 생성, 항공사 id를 통한 항공사와 항공기간 연관관계 맺어줌
         //given(airlineService.findById(any()))
@@ -88,10 +96,9 @@ public class AirplaneServiceTest {
     }
     @Test
     void 항공기조회_정상(){
-        Airplane airplane = reqDto.toEntity();
         //제공된 항공사 id & Authorization id & 항공기 id
+        given(mockAirline.findAirplaneById(any())).willReturn(airplane);
         given(airlineService.findById(any())).willReturn(mockAirline);
-        given(mockAirline.findAirplaneById(any() ) ).willReturn(airplane);
 
         AirplaneDto.Response resDto = airplaneService.airplaneFind(1L,1L,"1");
 

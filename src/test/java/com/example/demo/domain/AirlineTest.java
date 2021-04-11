@@ -36,7 +36,7 @@ public class AirlineTest {
 
     @BeforeAll
     void 항공사초기화() {
-        airplaneList = new LinkedList();
+        airplaneList = new LinkedList<>();
         airline = Airline.builder()
                 .name(TEST_AIRLINE_NAME)
                 .country(TEST_AIRLINE_COUNTRY)
@@ -44,7 +44,7 @@ public class AirlineTest {
         for (int i = 1; i < 10; i++) {
             Airplane EachAirplane = Airplane.builder()
                     .id((long) i)
-                    .name(TEST_AIRPLANE_NAME + String.valueOf(i))
+                    .name(TEST_AIRPLANE_NAME + i)
                     .takeOffTime(TEST_TAKEOFFTIME_NAME)
                     .landingTime(TEST_LANDINGTIME_NAME)
                     .takeOff(TEST_TAKEOFF)
@@ -53,16 +53,16 @@ public class AirlineTest {
                     .build();
 
             airplaneList.add(EachAirplane);
-            airline.registerAirplane(EachAirplane);
+            EachAirplane.registerAirline(airline);
         }
     }
 
     public Airline airline;
-    private List<Airplane> airplaneList;
+    private LinkedList airplaneList;
 
     @Test
     void 항공기조회() {
         Airplane airplane = airline.findAirplaneById(1L);
-        assertThat(airplane.getName()).isEqualTo(TEST_AIRPLANE_NAME + String.valueOf(1));
+        assertThat(airplane.getName()).isEqualTo(TEST_AIRPLANE_NAME + 1);
     }
 }

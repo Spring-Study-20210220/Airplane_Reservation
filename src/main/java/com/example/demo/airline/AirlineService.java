@@ -46,7 +46,6 @@ public class AirlineService {
         return airline.toResponseDto();
     }
 
-    @Transactional
     private void duplicationCheck(AirlineDto.Request reqDto){
         String name = reqDto.getName();
         Optional<Airline> result = airlineRepository.findByName(name);
@@ -58,7 +57,7 @@ public class AirlineService {
     @Transactional
     public Airline findById(Long id) {
         return airlineRepository.findById(id).orElseThrow(
-                () -> new AirlineNotFoundException()
+                AirlineNotFoundException::new
         );
     }
 }

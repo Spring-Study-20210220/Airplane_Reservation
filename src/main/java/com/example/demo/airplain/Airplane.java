@@ -30,14 +30,16 @@ public class Airplane extends BaseTimeEntity {
     private LocalDateTime takeOffTime;
     private LocalDateTime landingTime;
 
+    @Enumerated(value = EnumType.STRING)
     private Place takeOff;
+    @Enumerated(value = EnumType.STRING)
     private Place landing;
 
     @Enumerated(EnumType.STRING)
     private AirplaneType airplaneType;
 
     @OneToMany(mappedBy = "airplain")
-    private Set<Seat> seats = new HashSet<Seat>();
+    private Set<Seat> seats = new HashSet<>();
 
     @JoinColumn(name = "AIRLINE_ID")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,7 +47,7 @@ public class Airplane extends BaseTimeEntity {
 
     @Builder
     Airplane(Long id, String name, LocalDateTime takeOffTime, LocalDateTime landingTime,
-             Place takeOff, Place landing, AirplaneType airplaneType) {
+             Place takeOff, Place landing, AirplaneType airplaneType, Airline airline) {
         this.id = id;
         this.name = name;
         this.takeOffTime = takeOffTime;
@@ -53,14 +55,19 @@ public class Airplane extends BaseTimeEntity {
         this.landingTime = landingTime;
         this.landing = landing;
         this.airplaneType = airplaneType;
+        this.airline = airline;
         generateSeatRows();
     }
 
     public void registerAirline(Airline airline){
+        if(this.airline!=null){
+            this.airline.getAirplanes().remove(this);
+        }
         this.airline=airline;
+        airline.getAirplanes().add(this);
     }
 
-    AirplaneDto.Response toResponseDto() {
+    public AirplaneDto.Response toResponseDto() {
         return AirplaneDto.Response.builder()
                 .id(id)
                 .name(name)

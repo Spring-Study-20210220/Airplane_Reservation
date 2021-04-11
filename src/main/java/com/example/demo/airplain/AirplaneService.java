@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Slf4j
@@ -20,14 +21,15 @@ public class AirplaneService {
     private final AirlineService airlineService;
     private final AdminAuthorizeService adminAuthorizeService;
 
+    @Transactional
     public AirplaneDto.Response airplaneCreate(Long airlineID, AirplaneDto.Request reqDto, String authorization) {
         adminAuthorizeService.authorize(authorization);
         duplicationCheck(reqDto);
 
         Airline airline = airlineService.findById(airlineID);
         Airplane airplane = airplaneRepository.save(reqDto.toEntity());
-        airline.registerAirplane(airplane);
-
+        //airline.registerAirplane(airplane);
+        airplane.registerAirline(airline);
         return airplane.toResponseDto();
     }
 
@@ -39,6 +41,7 @@ public class AirplaneService {
         }
     }
 
+    @Transactional
     public AirplaneDto.Response airplaneFind(Long airlineID, Long airplaneID, String authorization) {
         adminAuthorizeService.authorize(authorization);
         Airline airline = airlineService.findById(airlineID);
@@ -49,7 +52,7 @@ public class AirplaneService {
 
     public Airplane findById(Long airplaneID){
         return airplaneRepository.findById(airplaneID).orElseThrow(
-                () -> new AirplaneNotFoundException()
+                AirplaneNotFoundException::new
         );
     }
 }
